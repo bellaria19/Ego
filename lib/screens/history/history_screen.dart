@@ -132,21 +132,40 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     crossAxisCellCount: 4,
                     mainAxisCellCount: 2,
                     child: Card(
-                      child: Center(
-                        child: Column(
-                          children: [
-                            const Text('기분 분포 그래프'),
-                            SfCircularChart(
-                              series: <CircularSeries>[
-                                PieSeries<ChartData, String>(
-                                  dataSource: chartData,
-                                  xValueMapper: (ChartData data, _) => data.x,
-                                  yValueMapper: (ChartData data, _) => data.y,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text('기분 분포'),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SfCircularChart(
+                                  series: <CircularSeries>[
+                                    DoughnutSeries<ChartData, String>(
+                                      animationDuration: 0,
+                                      dataSource: chartData,
+                                      xValueMapper: (ChartData data, _) =>
+                                          data.x,
+                                      yValueMapper: (ChartData data, _) =>
+                                          data.y,
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('First'),
+                                    Text('Second'),
+                                    Text('Third'),
+                                    Text('Fourth'),
+                                    Text('Fifth'),
+                                  ],
                                 )
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
