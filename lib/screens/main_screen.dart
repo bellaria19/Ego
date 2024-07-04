@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'chat/chat_screen.dart';
 import 'history/history_screen.dart';
 import 'home/home_screen.dart';
-import 'quest/quest_screen.dart';
+import 'quest/record_screen.dart';
 import 'profile/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     const ChatScreen(), // Chat
     const HistoryScreen(), // History
     const HomeScreen(), // Home
-    const QuestScreen(), // Quest
+    RecordScreen(), // Quest
     const ProfileScreen(), // Profile
   ];
 
