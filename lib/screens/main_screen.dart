@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'chat/chat_screen.dart';
 import 'history/history_screen.dart';
 import 'home/home_screen.dart';
-import 'quest/record_screen.dart';
+import 'record/record_screen.dart';
 import 'profile/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
