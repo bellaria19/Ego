@@ -1,5 +1,5 @@
-import 'package:ego/screens/quest/emotion_screen.dart';
-import 'package:ego/screens/quest/quest_screen.dart';
+import 'package:ego/screens/record/emotion_screen.dart';
+import 'package:ego/screens/record/quest_screen.dart';
 import 'package:flutter/material.dart';
 
 class RecordScreen extends StatefulWidget {
