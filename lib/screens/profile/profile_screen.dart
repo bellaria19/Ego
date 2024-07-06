@@ -9,17 +9,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background/profile.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: ListView(children: const [
-            Card(
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: ListView(children: [
+            const Card(
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Color.fromRGBO(240, 173, 53, 1),
@@ -27,23 +21,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: Text('Profile Detail'),
               ),
             ),
-            ListTile(
+            const ListTile(
               title: Text('Name'),
               subtitle: Text('John Doe'),
             ),
-            ListTile(
+            const ListTile(
               title: Text('Email'),
               subtitle: Text(''),
             ),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Navigator.pushNamed(context, '/auth');
+              },
+              label: const Text('Logout'),
+            )
           ]),
         ),
-
-        // child: ElevatedButton(
-        //   onPressed: () {
-        //     Navigator.pushNamed(context, '/profile_detail');
-        //   },
-        //   child: const Text('Go to Profile Detail'),
-        // ),
       ),
     );
   }
