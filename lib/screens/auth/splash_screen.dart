@@ -1,6 +1,6 @@
+import 'package:ego/screens/auth/sign_screen.dart';
 import 'package:ego/screens/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ego/screens/auth/register_screen.dart';
 import 'package:ego/utils/constants.dart';
 
 /// Page to redirect users to the appropriate page depending on the initial auth state
@@ -26,7 +26,7 @@ class SplashScreenState extends State<SplashScreen> {
     if (session == null) {
       print('No session');
       Navigator.of(context)
-          .pushAndRemoveUntil(RegisterScreen.route(), (route) => false);
+          .pushAndRemoveUntil(AuthScreen.route(), (route) => false);
     } else {
       print('Session found');
       Navigator.of(context)

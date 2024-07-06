@@ -1,3 +1,5 @@
+import 'package:ego/screens/auth/sign_screen.dart';
+import 'package:ego/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ego/screens/auth/splash_screen.dart';
@@ -26,12 +28,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'EGO',
       theme: appTheme,
-      home: const SplashScreen(),
-      // initialRoute: '/',
-      // routes: {
-      //   '/': (context) => const SplashScreen(),
-      // '/signIn': (context) => const AuthScreen(),
-      // },
+      // home: const SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/auth': (context) => const AuthScreen(),
+        '/home': (context) => const MainScreen(),
+      },
     );
   }
 }
