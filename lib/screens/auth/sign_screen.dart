@@ -1,77 +1,63 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ego/screens/chat/chat_screen.dart';
-import 'package:ego/utils/constants.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute(builder: (context) => const SignInScreen());
+    return MaterialPageRoute(builder: (context) => const AuthScreen());
   }
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
-  bool _isLoading = false;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  Future<void> _signIn() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      await supabase.auth.signInWithPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      Navigator.of(context)
-          .pushAndRemoveUntil(ChatScreen.route(), (route) => false);
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (_) {
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
-    }
-    if (mounted) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
+class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
       body: ListView(
-        padding: formPadding,
+        padding: const EdgeInsets.all(24.0),
         children: [
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
-            keyboardType: TextInputType.emailAddress,
+          SupaEmailAuth(
+            redirectTo: kIsWeb ? null : 'io.supabase.flutter://',
+            onSignInComplete: (response) {
+              Navigator.of(context).pushReplacementNamed('/home');
+            },
+            onSignUpComplete: (response) {
+              Navigator.of(context).pushReplacementNamed('/home');
+            },
+            metadataFields: [
+              MetaDataField(
+                prefixIcon: const Icon(Icons.person),
+                label: 'Username',
+                key: 'username',
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Please enter something';
+                  }
+                  return null;
+                },
+              ),
+            ],
           ),
-          formSpacer,
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
-          ),
-          formSpacer,
-          ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: const Text('Login'),
+          const Divider(),
+          SupaSocialsAuth(
+            colored: true,
+            nativeGoogleAuthConfig: const NativeGoogleAuthConfig(
+              webClientId: 'YOUR_WEB_CLIENT_ID',
+              iosClientId: 'YOUR_IOS_CLIENT_ID',
+            ),
+            enableNativeAppleAuth: false,
+            socialProviders: const [
+              OAuthProvider.google,
+              OAuthProvider.apple,
+            ],
+            onSuccess: (session) {
+              Navigator.of(context).pushReplacementNamed('/home');
+            },
           ),
         ],
       ),
