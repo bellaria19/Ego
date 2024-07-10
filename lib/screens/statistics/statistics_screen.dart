@@ -1,18 +1,18 @@
 import 'package:ego/models/chartdata.dart';
-import 'package:ego/screens/history/annual_report_screen.dart';
-import 'package:ego/screens/history/monthly_report_screen.dart';
+import 'package:ego/screens/statistics/annual_report_screen.dart';
+import 'package:ego/screens/statistics/monthly_report_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class StatisticsScreen extends StatefulWidget {
+  const StatisticsScreen({super.key});
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
+  State<StatisticsScreen> createState() => _StatisticsScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _StatisticsScreenState extends State<StatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     // Get current date and format
@@ -28,13 +28,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background/history.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage('assets/background/history.jpg'),
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         child: Center(
           child: Column(children: [
             Text(
@@ -84,7 +85,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       },
                       child: const Card(
                         child: Center(
-                          child: Text('연간 리포트 보러가기'),
+                          child: Text('연간 리포트'),
                         ),
                       ),
                     ),
