@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'chat/chat_screen.dart';
-import 'history/history_screen.dart';
+import 'statistics/statistics_screen.dart';
 import 'home/home_screen.dart';
 import 'record/record_screen.dart';
 import 'profile/profile_screen.dart';
@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List _widgetOptions = const [
     ChatScreen(), // Chat
-    HistoryScreen(), // History
+    StatisticsScreen(), // History
     HomeScreen(), // Home
     RecordScreen(), // Quest
     ProfileScreen(), // Profile
@@ -62,15 +62,15 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        // labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        backgroundColor: Colors.white,
         selectedIndex: _selectedIndex,
-        indicatorColor: const Color.fromRGBO(240, 173, 53, 1),
+        // indicatorColor: Colors.amber,
         onDestinationSelected: (int index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-
         destinations: _navigationDestination.map(
           (NavigationDestination dest) {
             return NavigationDestination(
