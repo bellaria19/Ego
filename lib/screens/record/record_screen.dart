@@ -96,7 +96,7 @@ class _RecordScreenState extends State<RecordScreen>
                 ),
               ),
               Expanded(
-                child: _selectedIndex == 0 ? EmotionScreen() : QuestScreen(),
+                child: _selectedIndex == 0 ? const EmotionScreen() : const QuestScreen(),
               ),
             ],
           ),

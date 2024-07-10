@@ -152,7 +152,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     )
                                   ],
                                 ),
-                                Column(
+                                const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text('First'),
