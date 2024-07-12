@@ -1,4 +1,3 @@
-import 'package:ego/screens/home/select_emotion_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -35,7 +34,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/auth': (context) => const AuthScreen(),
         '/home': (context) => const MainScreen(),
-        '/select_emotion': (context) => const SelectEmotionScreen(),
       },
     );
   }
