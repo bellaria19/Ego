@@ -68,12 +68,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: GridView.count(
                     crossAxisCount: 2,
                     children: [
-                      Card(
+                      const Card(
                         child: Center(
                           child: Text('기록한 감정\n3', textAlign: TextAlign.center),
                         ),
                       ),
-                      Card(
+                      const Card(
                         child: Center(
                           child:
                               Text('완료한 퀘스트\n3', textAlign: TextAlign.center),
@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           // Add your logic for when the card is tapped
                         },
-                        child: Card(
+                        child: const Card(
                           child: Center(
                             child: Text('건의함', textAlign: TextAlign.center),
                           ),
@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           // Add your logic for when the card is tapped
                         },
-                        child: Card(
+                        child: const Card(
                           child: Center(
                             child: Text('제작소', textAlign: TextAlign.center),
                           ),
