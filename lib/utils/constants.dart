@@ -35,12 +35,6 @@ final appTheme = ThemeData.light().copyWith(
       foregroundColor: Colors.orange,
     ),
   ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.orange,
-    ),
-  ),
   inputDecorationTheme: InputDecorationTheme(
     floatingLabelStyle: const TextStyle(
       color: Colors.orange,
