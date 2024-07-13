@@ -21,7 +21,7 @@ class AnnualReportScreen extends StatelessWidget {
               width: 2.0,
             ),
           ),
-          child: Column(
+          child: const Column(
             children: [
               Text('연간 리포트 화면입니다.'),
             ],
