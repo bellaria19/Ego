@@ -1,15 +1,13 @@
 import 'package:ego/screens/home/memo_screen.dart';
 import 'package:ego/screens/main_screen.dart';
+import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SelectKeywordScreen extends StatefulWidget {
-  // final Function(List<String>) onKeywordsSelected;
-
   const SelectKeywordScreen({
     super.key,
-    // required this.onKeywordsSelected
   });
 
   @override
@@ -17,15 +15,22 @@ class SelectKeywordScreen extends StatefulWidget {
 }
 
 class _SelectKeywordScreenState extends State<SelectKeywordScreen> {
-  List<String> keywords = [];
+  String keyword = '';
 
-  void setKeywords(List<String> selectedKeywords) {
+  // List<String> emotionStages = [
+//   "매우 좋음 (Ecstatic)",
+//   "좋음 (Happy)",
+//   "보통 (Neutral)",
+//   "나쁨 (Unhappy)",
+//   "매우 나쁨 (Miserable)"
+// ];
+
+  void setKeyword(String selectedKeyword) {
     setState(() {
-      keywords = selectedKeywords;
+      keyword = selectedKeyword;
     });
   }
 
-  List<String> selectedKeywords = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +67,7 @@ class _SelectKeywordScreenState extends State<SelectKeywordScreen> {
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 3,
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.black,
@@ -76,59 +82,56 @@ class _SelectKeywordScreenState extends State<SelectKeywordScreen> {
                       children: [
                         IconButton.filledTonal(
                           onPressed: () {
-                            selectedKeywords.add('happy');
+                            setKeyword('Ecstatic');
                           },
                           icon: const Icon(FontAwesomeIcons.faceSmileBeam),
                         ),
                         IconButton.filledTonal(
                           onPressed: () {
-                            selectedKeywords.add('good');
+                            setKeyword('Happy');
                           },
                           icon: const Icon(FontAwesomeIcons.faceSmile),
                         ),
                         IconButton.filledTonal(
                           onPressed: () {
-                            selectedKeywords.add('meh');
+                            setKeyword('Neutral');
                           },
                           icon: const Icon(FontAwesomeIcons.faceMeh),
                         ),
                         IconButton.filledTonal(
                           onPressed: () {
-                            selectedKeywords.add('frown');
+                            setKeyword('Unhappy');
                           },
                           icon: const Icon(FontAwesomeIcons.faceFrown),
                         ),
                         IconButton.filledTonal(
                           onPressed: () {
-                            selectedKeywords.add('sad');
+                            setKeyword('Miserable');
                           },
                           icon: const Icon(FontAwesomeIcons.faceSadCry),
                         ),
                       ],
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
+                    formSpacer,
+                    if (keyword != '')
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Card(
+                          child: Row(
+                            children: [
+                              Text(keyword),
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      keyword = '';
+                                    });
+                                  },
+                                  icon:
+                                      const Icon(FontAwesomeIcons.circleXmark))
+                            ],
+                          ),
+                        ),
                       ),
-                      child: Row(
-                        children: selectedKeywords
-                            .map((keyword) => Container(
-                                  margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    keyword,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(

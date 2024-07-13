@@ -1,14 +1,12 @@
+import 'package:ego/screens/home/recommend_screen.dart';
 import 'package:ego/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MemoScreen extends StatefulWidget {
-  // final Function(String) onMemoSubmitted;
-
   const MemoScreen({
     super.key,
-    //  required this.onMemoSubmitted
   });
 
   @override
@@ -18,6 +16,26 @@ class MemoScreen extends StatefulWidget {
 class _MemoScreenState extends State<MemoScreen> {
   String memo = '';
   final TextEditingController controller = TextEditingController();
+  bool _isEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_updateButtonState);
+    controller.dispose();
+    super.dispose();
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isEnabled = controller.text.isNotEmpty;
+    });
+  }
 
   void setMemo(String memoText) {
     setState(() {
@@ -86,19 +104,47 @@ class _MemoScreenState extends State<MemoScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const RecommendScreen(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return child;
+                                },
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              foregroundColor: Colors.white,
                               backgroundColor: Colors.black),
-                          child: const Text('건너뛰기'),
+                          child: const Text(
+                            '건너뛰기',
+                          ),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MainScreen.route(), (route) => false);
-                          },
+                          onPressed: _isEnabled
+                              ? () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const RecommendScreen(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return child;
+                                      },
+                                    ),
+                                  );
+                                  // Navigator.of(context).pushAndRemoveUntil(
+                                  //     MainScreen.route(), (route) => false);
+                                }
+                              : null,
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),

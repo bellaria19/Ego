@@ -5,22 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SelectMoodScreen extends StatefulWidget {
-  // final Function(String) onMoodSelected;
-
   const SelectMoodScreen({
     super.key,
-    // required this.onMoodSelected,
   });
-
-  // static Route<void> route() {
-  //   return PageRouteBuilder(
-  //     pageBuilder: (context, animation, secondaryAnimation) =>
-  //         SelectMoodScreen(),
-  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //       return child;
-  //     },
-  //   );
-  // }
 
   @override
   State<SelectMoodScreen> createState() => _SelectMoodScreenState();
@@ -92,31 +79,31 @@ class _SelectMoodScreenState extends State<SelectMoodScreen> {
                   children: [
                     IconButton.filledTonal(
                       onPressed: () {
-                        onMoodSelected('happy');
+                        onMoodSelected('Ecstatic');
                       },
                       icon: const Icon(FontAwesomeIcons.faceSmileBeam),
                     ),
                     IconButton.filledTonal(
                       onPressed: () {
-                        onMoodSelected('good');
+                        onMoodSelected('Happy');
                       },
                       icon: const Icon(FontAwesomeIcons.faceSmile),
                     ),
                     IconButton.filledTonal(
                       onPressed: () {
-                        onMoodSelected('meh');
+                        onMoodSelected('Neutral');
                       },
                       icon: const Icon(FontAwesomeIcons.faceMeh),
                     ),
                     IconButton.filledTonal(
                       onPressed: () {
-                        onMoodSelected('frown');
+                        onMoodSelected('Unhappy');
                       },
                       icon: const Icon(FontAwesomeIcons.faceFrown),
                     ),
                     IconButton.filledTonal(
                       onPressed: () {
-                        onMoodSelected('sad');
+                        onMoodSelected('Miserable');
                       },
                       icon: const Icon(FontAwesomeIcons.faceSadCry),
                     ),
