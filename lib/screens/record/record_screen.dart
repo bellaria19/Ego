@@ -6,7 +6,7 @@ class RecordScreen extends StatefulWidget {
   const RecordScreen({super.key});
 
   @override
-  _RecordScreenState createState() => _RecordScreenState();
+  State<RecordScreen> createState() => _RecordScreenState();
 }
 
 class _RecordScreenState extends State<RecordScreen>
@@ -17,86 +17,67 @@ class _RecordScreenState extends State<RecordScreen>
   ];
   int _selectedIndex = 0;
 
-  double changePositionedOfLine() {
-    switch (_selectedIndex) {
-      case 0:
-        return 0;
-      case 1:
-        return 78;
-      default:
-        return 0;
-    }
-  }
-
-  double changeContainerWidth() {
-    switch (_selectedIndex) {
-      case 0:
-        return 50;
-      case 1:
-        return 80;
-      default:
-        return 0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
           width: size.width,
           height: size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(right: 12),
                 width: size.width,
                 height: size.height * 0.05,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      // top: 0,
-                      // left: 0,
-                      // right: 0,
-                      child: SizedBox(
-                        width: size.width,
-                        height: size.height * 0.04,
-                        child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: tabs.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    left: index == 0 ? 10 : 23, top: 7),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedIndex = index;
-                                    });
-                                  },
-                                  child: Text(
-                                    tabs[index],
-                                    style: TextStyle(
-                                      fontSize:
-                                          _selectedIndex == index ? 20 : 16,
-                                      fontWeight: _selectedIndex == index
-                                          ? FontWeight.w500
-                                          : FontWeight.w300,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: tabs.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String tab = entry.value;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: index == 0 ? 10 : 23, top: 7),
+                            child: Text(
+                              tab,
+                              style: TextStyle(
+                                fontSize: _selectedIndex == index ? 20 : 16,
+                                fontWeight: _selectedIndex == index
+                                    ? FontWeight.w500
+                                    : FontWeight.w300,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: index == 0 ? 10 : 23, top: 5),
+                            height: 2,
+                            width: 30,
+                            color: _selectedIndex == index
+                                ? Colors.black
+                                : Colors.transparent,
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
               Expanded(
-                child: _selectedIndex == 0 ? const EmotionScreen() : const QuestScreen(),
+                child: _selectedIndex == 0
+                    ? const EmotionScreen()
+                    : const QuestScreen(),
               ),
             ],
           ),
