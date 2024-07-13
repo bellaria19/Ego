@@ -17,14 +17,6 @@ class SelectKeywordScreen extends StatefulWidget {
 class _SelectKeywordScreenState extends State<SelectKeywordScreen> {
   String keyword = '';
 
-  // List<String> emotionStages = [
-//   "매우 좋음 (Ecstatic)",
-//   "좋음 (Happy)",
-//   "보통 (Neutral)",
-//   "나쁨 (Unhappy)",
-//   "매우 나쁨 (Miserable)"
-// ];
-
   void setKeyword(String selectedKeyword) {
     setState(() {
       keyword = selectedKeyword;
