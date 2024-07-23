@@ -168,8 +168,10 @@ class _MessageBarState extends State<_MessageBar> {
         'content': text,
       });
     } on PostgrestException catch (error) {
+      print(error.message);
       context.showErrorSnackBar(message: error.message);
     } catch (_) {
+      print(unexpectedErrorMessage);
       context.showErrorSnackBar(message: unexpectedErrorMessage);
     }
   }
