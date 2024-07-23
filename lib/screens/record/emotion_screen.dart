@@ -1,19 +1,16 @@
+import 'package:ego/models/emotion.dart';
+import 'package:ego/screens/record/empty_emotion.dart';
 import 'package:flutter/material.dart';
 
 class EmotionScreen extends StatefulWidget {
   const EmotionScreen({super.key});
 
   @override
-  _EmotionScreenState createState() => _EmotionScreenState();
+  State<EmotionScreen> createState() => _EmotionScreenState();
 }
 
 class _EmotionScreenState extends State<EmotionScreen> {
-  final List emotionList = [
-    {"date": "4월 26일", "time": "21:11", "emotion1": "이유 없음", "emotion2": "감사한"},
-    {"date": "3월 15일", "time": "14:18", "emotion1": "이유 없음", "emotion2": "슬픈"},
-    {"date": "3월 15일", "time": "14:18", "emotion1": "돈", "emotion2": "희망찬"},
-    {"date": "3월 15일", "time": "14:07", "emotion1": "공부", "emotion2": "열정적인"},
-  ];
+  List<Emotion> dummyEmotions = generateSampleEmotions(10);
 
   String _selectedYear = DateTime.now().year.toString();
   final List<String> _years =
@@ -46,36 +43,63 @@ class _EmotionScreenState extends State<EmotionScreen> {
               ],
             ),
           ),
-          emotionList.isEmpty
-              ? const Text('No Emotion Data')
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: emotionList.length,
-                  itemBuilder: (context, index) {
-                    final emotion = emotionList[index];
-                    return Card(
-                      child: ListTile(
-                        leading: const CircleAvatar(
-                          child: Icon(Icons.sentiment_satisfied),
+          dummyEmotions.isEmpty
+              ? const EmptyEmotion()
+              : Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: dummyEmotions.length,
+                    itemBuilder: (context, index) {
+                      final emotion = dummyEmotions[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 4),
+                                padding: const EdgeInsets.only(left: 8),
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  emotion.date.toString(),
+                                ),
+                              ),
+                              ListTile(
+                                leading: const CircleAvatar(
+                                  child: Icon(Icons.sentiment_satisfied),
+                                ),
+                                title: Text(emotion.keyword),
+                                subtitle: Text(emotion.memo.isNotEmpty
+                                    ? emotion.memo
+                                    : 'Write a memo'),
+                                trailing: Wrap(
+                                  spacing: 12,
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () {},
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        setState(() {
+                                          dummyEmotions.removeAt(index);
+                                        });
+                                      },
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                        title: Text('${emotion["date"]} ${emotion["time"]}'),
-                        subtitle: Wrap(
-                          spacing: 8.0,
-                          children: [
-                            Chip(label: Text(emotion["emotion1"]!)),
-                            Chip(label: Text(emotion["emotion2"]!)),
-                          ],
-                        ),
-                        trailing: const Wrap(
-                          spacing: 12,
-                          children: <Widget>[
-                            Icon(Icons.edit),
-                            Icon(Icons.delete),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
         ],
       ),
