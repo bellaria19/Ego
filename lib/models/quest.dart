@@ -1,5 +1,14 @@
+import 'dart:math';
+
+enum QuestCategory {
+  todo,
+  write,
+  picture,
+  chat,
+}
+
 class Quest {
-  final String category;
+  final QuestCategory category;
   final String title;
   final String date;
   final int rate;
@@ -10,4 +19,43 @@ class Quest {
     required this.date,
     required this.rate,
   });
+}
+
+// TODO 더미 데이터 생성용
+// 임의의 데이터 생성 함수
+List<Quest> generateSampleQuests(int count) {
+  List<Quest> quests = [];
+  Random random = Random();
+
+  List<String> titles = [
+    'Complete homework',
+    'Write a blog post',
+    'Take a photo of nature',
+    'Chat with a friend',
+    'Finish project',
+    'Draft a short story',
+    'Capture a sunset',
+    'Discuss a book',
+  ];
+
+  for (int i = 0; i < count; i++) {
+    QuestCategory category =
+        QuestCategory.values[random.nextInt(QuestCategory.values.length)];
+    String title = titles[random.nextInt(titles.length)];
+    String date = DateTime.now()
+        .subtract(Duration(days: random.nextInt(365)))
+        .toIso8601String()
+        .split('T')
+        .first;
+    int rate = random.nextInt(6); // 0부터 5까지의 랜덤 숫자
+
+    quests.add(Quest(
+      category: category,
+      title: title,
+      date: date,
+      rate: rate,
+    ));
+  }
+
+  return quests;
 }
