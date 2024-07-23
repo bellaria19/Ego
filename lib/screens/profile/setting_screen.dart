@@ -1,3 +1,6 @@
+import 'package:ego/screens/profile/list_item.dart';
+import 'package:ego/screens/profile/reusable_switch_tile.dart';
+import 'package:ego/screens/profile/set_list_tile.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -190,69 +193,6 @@ class _DetailScreenState extends State<DetailScreen> {
     return localizations.formatTimeOfDay(timeOfDay,
         alwaysUse24HourFormat: true);
   }
-}
-
-class SetListTile extends StatelessWidget {
-  const SetListTile({
-    super.key,
-    required this.title,
-    this.subtitle,
-    this.onTap,
-  });
-
-  final String title;
-  final String? subtitle;
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        title,
-        // style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: subtitle != null
-          ? Text(
-              subtitle!,
-              style: const TextStyle(color: Colors.grey),
-            )
-          : null,
-      trailing: const Icon(
-        Icons.arrow_forward_ios,
-        color: Colors.grey,
-      ),
-      onTap: onTap,
-    );
-  }
-}
-
-class ReusableSwitchTile extends StatelessWidget {
-  const ReusableSwitchTile({
-    super.key,
-    required this.title,
-    required this.value,
-    required this.onChanged,
-  });
-
-  final String title;
-  final bool value;
-  final Function(bool) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: Text(title),
-      value: value,
-      onChanged: onChanged,
-    );
-  }
-}
-
-class ListItem {
-  final String value;
-  final String label;
-
-  ListItem({required this.value, required this.label});
 }
 
 List<ListItem> genderOptions = [
