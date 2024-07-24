@@ -170,15 +170,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         ),
                       ),
                     ),
-                    StaggeredGridTile.count(
+                    const StaggeredGridTile.count(
                       crossAxisCellCount: 2,
                       mainAxisCellCount: 1,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: StatCard(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Text(
                                 '총 기록한 감정 개수',
                                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -196,15 +196,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         ),
                       ),
                     ),
-                    StaggeredGridTile.count(
+                    const StaggeredGridTile.count(
                       crossAxisCellCount: 2,
                       mainAxisCellCount: 1,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: StatCard(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Text(
                                 '총 완료한 퀘스트 개수',
                                 style: TextStyle(fontWeight: FontWeight.w600),

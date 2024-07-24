@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return DayReward();
+                            return const DayReward();
                           },
                         );
                       },
