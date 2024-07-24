@@ -1,5 +1,5 @@
-import 'package:ego/screens/profile/reusable_switch_tile.dart';
-import 'package:ego/screens/profile/set_list_tile.dart';
+import 'package:ego/widget/reusable_switch_tile.dart';
+import 'package:ego/widget/set_list_tile.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

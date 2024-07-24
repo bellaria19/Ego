@@ -1,5 +1,5 @@
 import 'package:ego/models/emotion.dart';
-import 'package:ego/screens/record/emotion_card.dart';
+import 'package:ego/widget/emotion_card.dart';
 import 'package:ego/screens/record/empty_emotion.dart';
 import 'package:flutter/material.dart';
 

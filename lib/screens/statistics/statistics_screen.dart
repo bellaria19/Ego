@@ -1,5 +1,5 @@
 import 'package:ego/models/chartData.dart';
-import 'package:ego/screens/statistics/stat_card.dart';
+import 'package:ego/widget/stat_card.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

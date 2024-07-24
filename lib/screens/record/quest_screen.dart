@@ -1,5 +1,5 @@
 import 'package:ego/models/quest.dart';
-import 'package:ego/screens/record/quest_card.dart';
+import 'package:ego/widget/quest_card.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 

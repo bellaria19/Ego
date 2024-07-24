@@ -1,6 +1,6 @@
 import 'package:ego/models/emotion.dart';
 import 'package:ego/models/quest.dart';
-import 'package:ego/screens/profile/record_card.dart';
+import 'package:ego/widget/record_card.dart';
 import 'package:ego/screens/profile/setting_screen.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';

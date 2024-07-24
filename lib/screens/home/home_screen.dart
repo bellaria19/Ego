@@ -1,4 +1,4 @@
-import 'package:ego/screens/home/day_reward.dart';
+import 'package:ego/widget/day_reward.dart';
 import 'package:ego/screens/home/select_emotion_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
