@@ -1,5 +1,5 @@
 import 'package:ego/models/quest.dart';
-import 'package:ego/screens/record/quest_tile.dart';
+import 'package:ego/screens/record/quest_card.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -121,7 +121,7 @@ class _QuestScreenState extends State<QuestScreen> {
                     final quest = filteredQuestList[index];
                     return Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: QuestTile(quest: quest),
+                      child: QuestCard(quest: quest),
                     );
                   },
                 ),

@@ -1,5 +1,5 @@
 import 'package:ego/models/emotion.dart';
-import 'package:ego/screens/record/emotion_tile.dart';
+import 'package:ego/screens/record/emotion_card.dart';
 import 'package:ego/screens/record/empty_emotion.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +66,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                       final emotion = emotionList[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: EmotionTile(emotion: emotion),
+                        child: EmotionCard(emotion: emotion),
                       );
                     },
                   ),

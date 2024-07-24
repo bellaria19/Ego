@@ -1,22 +1,22 @@
 import 'package:ego/models/emotion.dart';
 import 'package:flutter/material.dart';
 
-class EmotionTile extends StatefulWidget {
-  const EmotionTile({super.key, required this.emotion});
+class EmotionCard extends StatefulWidget {
+  const EmotionCard({super.key, required this.emotion});
 
   final Emotion emotion;
 
   @override
-  State<EmotionTile> createState() => _EmotionTileState();
+  State<EmotionCard> createState() => _EmotionCardState();
 }
 
-class _EmotionTileState extends State<EmotionTile> {
+class _EmotionCardState extends State<EmotionCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(),
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         children: [

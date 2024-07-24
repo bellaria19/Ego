@@ -9,8 +9,8 @@ const Map<QuestCategory, String> categoryMap = {
   QuestCategory.chat: '대화',
 };
 
-class QuestTile extends StatefulWidget {
-  const QuestTile({
+class QuestCard extends StatefulWidget {
+  const QuestCard({
     super.key,
     required this.quest,
   });
@@ -18,16 +18,16 @@ class QuestTile extends StatefulWidget {
   final Quest quest;
 
   @override
-  State<QuestTile> createState() => _QuestTileState();
+  State<QuestCard> createState() => _QuestCardState();
 }
 
-class _QuestTileState extends State<QuestTile> {
+class _QuestCardState extends State<QuestCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(),
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         children: [
