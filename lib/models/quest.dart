@@ -11,13 +11,15 @@ class Quest {
   final QuestCategory category;
   final String title;
   final DateTime date;
-  final int rate;
+  bool isComplete;
+  final int? rate;
 
   Quest({
     required this.category,
     required this.title,
     required this.date,
-    required this.rate,
+    required this.isComplete,
+    this.rate,
   });
 }
 
@@ -49,6 +51,7 @@ List<Quest> generateSampleQuests(int count) {
       category: category,
       title: title,
       date: date,
+      isComplete: rate == 0 ? false : true,
       rate: rate,
     ));
   }
