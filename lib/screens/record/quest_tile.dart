@@ -9,7 +9,7 @@ const Map<QuestCategory, String> categoryMap = {
   QuestCategory.chat: '대화',
 };
 
-class QuestTile extends StatelessWidget {
+class QuestTile extends StatefulWidget {
   const QuestTile({
     super.key,
     required this.quest,
@@ -17,6 +17,11 @@ class QuestTile extends StatelessWidget {
 
   final Quest quest;
 
+  @override
+  State<QuestTile> createState() => _QuestTileState();
+}
+
+class _QuestTileState extends State<QuestTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,32 +31,50 @@ class QuestTile extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 4),
-            padding: const EdgeInsets.only(left: 8),
-            alignment: Alignment.topLeft,
-            child: Text(
-              categoryMap[quest.category] ?? 'Unknown',
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 14, top: 4),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  categoryMap[widget.quest.category] ?? 'Unknown',
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 20, top: 4),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.quest.date.toIso8601String().split('T').first,
+                ),
+              ),
+            ],
           ),
           ListTile(
-            title: Text(quest.title),
-            subtitle: Text(quest.date.toIso8601String().split('T').first),
-            trailing: RatingBar.builder(
-              initialRating: quest.rate.toDouble(),
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemSize: 25,
-              itemBuilder: (context, _) => const Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
-            ),
+            title: Text(widget.quest.title),
+            trailing: (widget.quest.isComplete)
+                ? RatingBar.builder(
+                    initialRating: widget.quest.rate!.toDouble(),
+                    minRating: 0,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemSize: 25,
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  )
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.quest.isComplete = true;
+                      });
+                    },
+                    child: const Text('완료')),
           ),
         ],
       ),
