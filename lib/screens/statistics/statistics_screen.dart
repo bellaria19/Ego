@@ -1,5 +1,5 @@
 import 'package:ego/models/chartData.dart';
-import 'package:ego/screens/record/stat_card.dart';
+import 'package:ego/screens/statistics/stat_card.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -265,6 +265,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                     Expanded(
                                       flex: 1,
                                       child: ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         itemCount: chartData.length,
                                         itemBuilder: (context, index) {
                                           return Container(
