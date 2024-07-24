@@ -11,16 +11,40 @@ class Profile {
   final String id;
 
   /// Username of the profile
-  final String username;
+  String username;
 
   /// Date and time when the profile was created
   final DateTime createdAt;
 
   /// Gender of the profile
-  final String gender;
+  String gender;
 
   /// Birthday of the profile
-  final DateTime birthday;
+  DateTime birthday;
+
+  /// Getter for the username
+  String get getUsername => username;
+
+  /// Setter for the username
+  set setUsername(String newUsername) {
+    username = newUsername;
+  }
+
+  /// Getter for the gender
+  String get getGender => gender;
+
+  /// Setter for the gender
+  set setGender(String newGender) {
+    gender = newGender;
+  }
+
+  /// Getter for the birthday
+  DateTime get getBirthday => birthday;
+
+  /// Setter for the birthday
+  set setBirthday(DateTime newBirthday) {
+    birthday = newBirthday;
+  }
 
   Profile.fromMap(Map<String, dynamic> map)
       : id = map['id'],

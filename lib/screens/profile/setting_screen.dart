@@ -1,39 +1,70 @@
-import 'package:ego/screens/profile/list_item.dart';
 import 'package:ego/screens/profile/reusable_switch_tile.dart';
 import 'package:ego/screens/profile/set_list_tile.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/profile.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  const DetailScreen({super.key, required this.userData});
 
-  static Route<void> route() {
-    return MaterialPageRoute(
-      builder: (context) => const DetailScreen(),
-    );
-  }
+  final Profile userData;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _DetailScreenState extends State<DetailScreen> {
-  Profile userData = Profile(
-    id: '0',
-    username: 'Username',
-    createdAt: DateTime.now(),
-    gender: 'male',
-    birthday: DateTime(2000, 12, 19),
-  );
+Profile userData = Profile(
+  id: '0',
+  username: 'Username',
+  createdAt: DateTime.now(),
+  gender: 'male',
+  birthday: DateTime(2000, 12, 19),
+);
 
+class _DetailScreenState extends State<DetailScreen> {
   TimeOfDay? selectedTime;
   bool questAlarm = false;
   bool emotionAlarm = false;
-  int _selectedGender = 0;
+
+  void updateUsername() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController controller = TextEditingController();
+        return AlertDialog(
+          title: const Text('닉네임 변경'),
+          content: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              hintText: 'Enter new username',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                setState(() {
+                  userData.setUsername = controller.text;
+                  print(userData.getUsername);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +74,6 @@ class _DetailScreenState extends State<DetailScreen> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
-            // Handle back button press
           },
         ),
         title:
@@ -52,10 +82,10 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       body: ListView(
         children: [
-          SetListTile(title: '닉네임 변경', onTap: () {}),
+          SetListTile(title: '닉네임 변경', onTap: updateUsername),
           SetListTile(
             title: '생년 월일 변경',
-            subtitle: '0000년 00월 00일',
+            subtitle: DateFormat('yyyy년 MM월 dd일').format(userData.getBirthday),
             onTap: () {
               showModalBottomSheet(
                 context: context,
@@ -66,8 +96,10 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
                         initialDateTime: userData.birthday,
-                        onDateTimeChanged: (value) {
-                          print(value);
+                        onDateTimeChanged: (DateTime newBirthday) {
+                          setState(() {
+                            userData.setBirthday = newBirthday;
+                          });
                         },
                       ),
                     ),
@@ -78,6 +110,7 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
           SetListTile(
             title: '성별 변경',
+            subtitle: userData.getGender,
             onTap: () {
               showModalBottomSheet(
                 context: context,
@@ -88,17 +121,15 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: CupertinoPicker(
                         itemExtent: 32,
                         scrollController: FixedExtentScrollController(
-                          initialItem: _selectedGender,
+                          initialItem: 0,
                         ),
                         onSelectedItemChanged: (int selectedGender) {
                           setState(() {
-                            _selectedGender = selectedGender;
+                            userData.setGender = gender[selectedGender];
                           });
                         },
-                        children:
-                            List.generate(genderOptions.length, (int index) {
-                          return Center(
-                              child: Text(genderOptions[index].label));
+                        children: List.generate(gender.length, (int index) {
+                          return Center(child: Text(gender[index]));
                         }),
                       ),
                     ),
@@ -195,17 +226,8 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
-List<ListItem> genderOptions = [
-  ListItem(
-    value: 'M',
-    label: 'Male',
-  ),
-  ListItem(
-    value: 'F',
-    label: 'Female',
-  ),
-  ListItem(
-    value: 'O',
-    label: 'Other',
-  ),
+List gender = [
+  'Male',
+  'Female',
+  'Other',
 ];

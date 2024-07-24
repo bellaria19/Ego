@@ -15,16 +15,17 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+Profile userData = Profile(
+  id: '0',
+  username: 'Username',
+  createdAt: DateTime(2024, 7, 1),
+  gender: 'male',
+  birthday: DateTime(2000, 12, 19),
+);
+
 class _ProfileScreenState extends State<ProfileScreen> {
   List<Emotion> dummyEmotions = generateSampleEmotions(10);
   List<Quest> dummyQuests = generateSampleQuests(10);
-  Profile userData = Profile(
-    id: '0',
-    username: 'Username',
-    createdAt: DateTime(2024, 7, 1),
-    gender: 'male',
-    birthday: DateTime(2000, 12, 19),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(userData.username,
+                      Text(userData.getUsername,
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold)),
                       Text(
@@ -67,8 +68,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   IconButton(
                     icon: const Icon(Icons.arrow_forward_ios),
                     onPressed: () {
-                      Navigator.of(context).push(DetailScreen.route());
-                      // Add your navigation logic here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailScreen(userData: userData),
+                        ),
+                      );
                     },
                   ),
                 ],
