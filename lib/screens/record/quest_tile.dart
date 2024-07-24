@@ -2,6 +2,13 @@ import 'package:ego/models/quest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+const Map<QuestCategory, String> categoryMap = {
+  QuestCategory.todo: '투두',
+  QuestCategory.write: '쓰기',
+  QuestCategory.picture: '사진',
+  QuestCategory.chat: '대화',
+};
+
 class QuestTile extends StatelessWidget {
   const QuestTile({
     super.key,
@@ -24,12 +31,12 @@ class QuestTile extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8),
             alignment: Alignment.topLeft,
             child: Text(
-              quest.category.toString(),
+              categoryMap[quest.category] ?? 'Unknown',
             ),
           ),
           ListTile(
             title: Text(quest.title),
-            subtitle: Text(quest.date),
+            subtitle: Text(quest.date.toIso8601String().split('T').first),
             trailing: RatingBar.builder(
               initialRating: quest.rate.toDouble(),
               minRating: 0,

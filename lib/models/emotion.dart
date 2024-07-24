@@ -9,7 +9,7 @@ enum EmotionType {
 }
 
 class Emotion {
-  final String date;
+  final DateTime date;
   final EmotionType emotion;
   final String keyword;
   final String memo;
@@ -22,7 +22,6 @@ class Emotion {
   });
 }
 
-// TODO 더미 데이터 생성용
 // 임의의 데이터 생성 함수
 List<Emotion> generateSampleEmotions(int count) {
   List<Emotion> emotions = [];
@@ -51,11 +50,8 @@ List<Emotion> generateSampleEmotions(int count) {
   ];
 
   for (int i = 0; i < count; i++) {
-    String date = DateTime.now()
-        .subtract(Duration(days: random.nextInt(365)))
-        .toIso8601String()
-        .split('T')
-        .first;
+    DateTime date =
+        DateTime.now().subtract(Duration(days: random.nextInt(365)));
     EmotionType emotion =
         EmotionType.values[random.nextInt(EmotionType.values.length)];
     String keyword = keywords[random.nextInt(keywords.length)];

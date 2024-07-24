@@ -12,17 +12,21 @@ class QuestScreen extends StatefulWidget {
   State<QuestScreen> createState() => _QuestScreenState();
 }
 
-const List<String> category = ['전체', '투두', '쓰기', '사진', '대화'];
-const Map<String, QuestCategory> categoryMap = {
-  '투두': QuestCategory.todo,
-  '쓰기': QuestCategory.write,
-  '사진': QuestCategory.picture,
-  '대화': QuestCategory.chat
-};
-
 class _QuestScreenState extends State<QuestScreen> {
-  List<Quest> dummyQuests = generateSampleQuests(10);
   int _selectedIndex = 0;
+  List<Quest> questList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Generate and sort emotions initially
+    questList = generateSampleQuests(10);
+    sortEmotionsByDate();
+  }
+
+  void sortEmotionsByDate() {
+    questList.sort((a, b) => b.date.compareTo(a.date));
+  }
 
   String _selectedYear = DateTime.now().year.toString();
   final List<String> _years =
@@ -30,9 +34,9 @@ class _QuestScreenState extends State<QuestScreen> {
 
   List<Quest> get filteredQuestList {
     if (category[_selectedIndex] == '전체') {
-      return dummyQuests;
+      return questList;
     } else {
-      return dummyQuests
+      return questList
           .where((quest) =>
               quest.category == categoryMap[category[_selectedIndex]])
           .toList();
@@ -126,3 +130,11 @@ class _QuestScreenState extends State<QuestScreen> {
     );
   }
 }
+
+const List<String> category = ['전체', '투두', '쓰기', '사진', '대화'];
+const Map<String, QuestCategory> categoryMap = {
+  '투두': QuestCategory.todo,
+  '쓰기': QuestCategory.write,
+  '사진': QuestCategory.picture,
+  '대화': QuestCategory.chat
+};

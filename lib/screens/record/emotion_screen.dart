@@ -11,7 +11,19 @@ class EmotionScreen extends StatefulWidget {
 }
 
 class _EmotionScreenState extends State<EmotionScreen> {
-  List<Emotion> dummyEmotions = generateSampleEmotions(10);
+  List<Emotion> emotionList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Generate and sort emotions initially
+    emotionList = generateSampleEmotions(10);
+    sortEmotionsByDate();
+  }
+
+  void sortEmotionsByDate() {
+    emotionList.sort((a, b) => b.date.compareTo(a.date));
+  }
 
   String _selectedYear = DateTime.now().year.toString();
   final List<String> _years =
@@ -44,14 +56,14 @@ class _EmotionScreenState extends State<EmotionScreen> {
               ],
             ),
           ),
-          dummyEmotions.isEmpty
+          emotionList.isEmpty
               ? const EmptyEmotion()
               : Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: dummyEmotions.length,
+                    itemCount: emotionList.length,
                     itemBuilder: (context, index) {
-                      final emotion = dummyEmotions[index];
+                      final emotion = emotionList[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: EmotionTile(emotion: emotion),

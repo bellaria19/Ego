@@ -10,7 +10,7 @@ enum QuestCategory {
 class Quest {
   final QuestCategory category;
   final String title;
-  final String date;
+  final DateTime date;
   final int rate;
 
   Quest({
@@ -21,7 +21,6 @@ class Quest {
   });
 }
 
-// TODO 더미 데이터 생성용
 // 임의의 데이터 생성 함수
 List<Quest> generateSampleQuests(int count) {
   List<Quest> quests = [];
@@ -42,11 +41,8 @@ List<Quest> generateSampleQuests(int count) {
     QuestCategory category =
         QuestCategory.values[random.nextInt(QuestCategory.values.length)];
     String title = titles[random.nextInt(titles.length)];
-    String date = DateTime.now()
-        .subtract(Duration(days: random.nextInt(365)))
-        .toIso8601String()
-        .split('T')
-        .first;
+    DateTime date =
+        DateTime.now().subtract(Duration(days: random.nextInt(365)));
     int rate = random.nextInt(6); // 0부터 5까지의 랜덤 숫자
 
     quests.add(Quest(

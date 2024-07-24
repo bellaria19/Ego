@@ -20,7 +20,7 @@ class EmotionTile extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                emotion.date.toString(),
+                emotion.date.toIso8601String().split('T').first,
               ),
             ),
           ),
