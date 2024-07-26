@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "501222656187",
-    "project_id": "ego-diary",
-    "storage_bucket": "ego-diary.appspot.com"
+    "project_number": "224832757205",
+    "project_id": "ego-diary-ce778",
+    "storage_bucket": "ego-diary-ce778.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:501222656187:android:dd64a5d972af8f1524819e",
+        "mobilesdk_app_id": "1:224832757205:android:df9f05c163506e4a36f15c",
         "android_client_info": {
           "package_name": "com.ego.diary"
         }
       },
       "oauth_client": [
         {
-          "client_id": "501222656187-539svm0bucnnn2i6c1ml91k38r42fb1k.apps.googleusercontent.com",
+          "client_id": "224832757205-90baaou9901u8md41a8g086odsjt3qiq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ego.diary",
@@ -22,24 +22,24 @@
           }
         },
         {
-          "client_id": "501222656187-a70eutnk9eoa5q4ggtldnqurqdumo2n0.apps.googleusercontent.com",
+          "client_id": "224832757205-rvdbougi2cq89c3ko778l6efshkumhq0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDaoRiB3aPGofAY9d1PRLG3yrINzYPyqcA"
+          "current_key": "AIzaSyDTAkToyL5o8GzB5K6WtxstAFK-1_LRPv8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "501222656187-a70eutnk9eoa5q4ggtldnqurqdumo2n0.apps.googleusercontent.com",
+              "client_id": "224832757205-rvdbougi2cq89c3ko778l6efshkumhq0.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "501222656187-n40vled860leh6p9tf165us12eae3joi.apps.googleusercontent.com",
+              "client_id": "224832757205-9ct78e4osvgqo00inden8ir5a3liu9bu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.ego.diary"
