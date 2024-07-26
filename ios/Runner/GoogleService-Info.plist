@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>501222656187-n40vled860leh6p9tf165us12eae3joi.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.501222656187-n40vled860leh6p9tf165us12eae3joi</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>501222656187-539svm0bucnnn2i6c1ml91k38r42fb1k.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAkJr2tVD9fBX8UB-nRgKlY1mnlATXPBhM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>501222656187</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ego.diary</string>
+	<key>PROJECT_ID</key>
+	<string>ego-diary</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ego-diary.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:501222656187:ios:779b558c0817980324819e</string>
+</dict>
+</plist>

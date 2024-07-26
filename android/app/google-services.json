@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "501222656187",
+    "project_id": "ego-diary",
+    "storage_bucket": "ego-diary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501222656187:android:dd64a5d972af8f1524819e",
+        "android_client_info": {
+          "package_name": "com.ego.diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501222656187-539svm0bucnnn2i6c1ml91k38r42fb1k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ego.diary",
+            "certificate_hash": "fa743f25d72b354da5a83057c044fff2102c9a0b"
+          }
+        },
+        {
+          "client_id": "501222656187-a70eutnk9eoa5q4ggtldnqurqdumo2n0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaoRiB3aPGofAY9d1PRLG3yrINzYPyqcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501222656187-a70eutnk9eoa5q4ggtldnqurqdumo2n0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501222656187-n40vled860leh6p9tf165us12eae3joi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ego.diary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
