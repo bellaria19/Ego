@@ -1,4 +1,4 @@
-import 'package:ego/main.dart';
+import 'package:ego/screens/main_screen.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/auth_google_btn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,13 +29,19 @@ class _AuthScreenState extends State<AuthScreen> {
             const Text('Start with \nEgo....'),
             const Divider(),
             formSpacer,
-            SignInWithGoogleButton(onPressed: () {
-              signInWithGoogle();
-            }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SignInWithGoogleButton(onPressed: () {
+                signInWithGoogle();
+              }),
+            ),
             formSpacer,
-            SignInWithAppleButton(onPressed: () {
-              signInWithApple();
-            }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SignInWithAppleButton(onPressed: () {
+                signInWithApple();
+              }),
+            ),
           ],
         ),
       ),
@@ -59,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
       print(value.user?.email);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => MyApp(),
+        builder: (context) => const MainScreen(),
       ));
     }).onError((error, stackTrace) {
       print('error $error');
@@ -71,7 +77,7 @@ class _AuthScreenState extends State<AuthScreen> {
     await FirebaseAuth.instance.signInWithProvider(appleProvider).then((value) {
       print(value.user?.email);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => MyApp(),
+        builder: (context) => const MainScreen(),
       ));
     }).onError((error, stackTrace) {
       print('error $error');

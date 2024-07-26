@@ -1,10 +1,12 @@
+import 'package:ego/main.dart';
+import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/reusable_switch_tile.dart';
 import 'package:ego/widget/set_list_tile.dart';
-import 'package:ego/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/profile.dart';
 
@@ -200,8 +202,32 @@ class _DetailScreenState extends State<DetailScreen> {
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
             onTap: () {
-              Supabase.instance.client.auth.signOut();
-              // TODO: Implement logout
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('로그아웃'),
+                  content: const Text('정말로 로그아웃 하시겠습니까?'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('취소'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('확인'),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        GoogleSignIn().signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const MyApp()),
+                            (Route<dynamic> route) => false);
+                      },
+                    ),
+                  ],
+                ),
+              );
             },
           ),
           ListTile(
@@ -209,7 +235,22 @@ class _DetailScreenState extends State<DetailScreen> {
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
             onTap: () {
-              // TODO: Implement delete account
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('계정 탈퇴'),
+                  content: const Text('정말로 계정을 삭제하시겠습니까?'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('취소'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(child: const Text('확인'), onPressed: () {}),
+                  ],
+                ),
+              );
             },
           ),
           formSpacer,

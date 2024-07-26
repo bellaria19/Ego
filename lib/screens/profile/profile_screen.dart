@@ -3,6 +3,7 @@ import 'package:ego/models/quest.dart';
 import 'package:ego/widget/record_card.dart';
 import 'package:ego/screens/profile/setting_screen.dart';
 import 'package:ego/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +25,8 @@ Profile userData = Profile(
 );
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  FirebaseAuth user = FirebaseAuth.instance;
+
   List<Emotion> dummyEmotions = generateSampleEmotions(10);
   List<Quest> dummyQuests = generateSampleQuests(10);
 
