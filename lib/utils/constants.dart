@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+const String geminiModel = 'gemini-1.5-flash';
+
 /// Supabase client
 final supabase = Supabase.instance.client;
+
+final firebase = FirebaseAuth.instance;
 
 /// Simple preloader inside a Center widget
 const preloader =
