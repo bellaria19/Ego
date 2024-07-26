@@ -53,6 +53,9 @@ dependencies:
   flutter_chat_types: any
   http: any
   path_provider: any
+  cloud_firestore: ^5.1.0
+  google_generative_ai: ^0.4.3
+  flutter_markdown: ^0.7.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
