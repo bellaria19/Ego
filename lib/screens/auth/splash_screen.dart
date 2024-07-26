@@ -14,27 +14,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _redirect();
-  // }
-  //
-  // Future<void> _redirect() async {
-  //   // await for for the widget to mount
-  //   await Future.delayed(Duration.zero);
-  //   final FirebaseAuth auth = FirebaseAuth.instance;
-  //   final User? user = auth.currentUser;
-  //
-  //   if (user == null) {
-  //     print('No session');
-  //     Navigator.of(context).pushNamedAndRemoveUntil('/auth', (route) => false);
-  //   } else {
-  //     print('Session found');
-  //     Navigator.of(context).pushNamedAndRemoveUntil('main', (route) => false);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(

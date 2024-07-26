@@ -1,230 +1,175 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-
-import 'package:ego/models/message.dart';
-import 'package:ego/models/profile.dart';
+import 'package:ego/widget/chat_field.dart';
+import 'package:ego/widget/message_widget.dart';
 import 'package:ego/utils/constants.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:timeago/timeago.dart';
+import 'package:flutter/material.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
-/// Page to chat with someone.
-///
-/// Displays chat bubbles as a ListView and TextField to enter new chat.
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
-
-  static Route<void> route() {
-    return MaterialPageRoute(
-      builder: (context) => const ChatScreen(),
-    );
-  }
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  late final Stream<List<Message>> _messagesStream;
-  final Map<String, Profile> _profileCache = {};
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late GenerativeModel _model;
+  late ScrollController _scrollController;
+  late TextEditingController _textController;
+  late FocusNode _focusNode;
+  late ChatSession _chatSession;
+  late bool _isLoading;
 
   @override
   void initState() {
-    final myUserId = supabase.auth.currentUser!.id;
-    _messagesStream = supabase
-        .from('messages')
-        .stream(primaryKey: ['id'])
-        .order('created_at')
-        .map((maps) => maps
-            .map((map) => Message.fromMap(map: map, myUserId: myUserId))
-            .toList());
     super.initState();
+    _scrollController = ScrollController();
+    _textController = TextEditingController();
+    _focusNode = FocusNode();
+    _isLoading = false;
+
+    // Set up the model
+    _model = GenerativeModel(model: geminiModel, apiKey: apiKey);
+
+    // Start a chat session
+    _chatSession = _model.startChat();
   }
 
-  Future<void> _loadProfileCache(String profileId) async {
-    if (_profileCache[profileId] != null) {
-      return;
-    }
-    final data =
-        await supabase.from('profiles').select().eq('id', profileId).single();
-    final profile = Profile.fromMap(data);
+  void _setLoading(bool isLoading) {
     setState(() {
-      _profileCache[profileId] = profile;
+      _isLoading = isLoading;
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _textController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<List<Message>>(
-        stream: _messagesStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final messages = snapshot.data!;
-            return Column(
-              children: [
-                Expanded(
-                  child: messages.isEmpty
-                      ? const Center(
-                          child: Text('Start your conversation now :)'),
-                        )
-                      : ListView.builder(
-                          reverse: true,
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) {
-                            final message = messages[index];
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: _chatSession.history.length,
+                  itemBuilder: (context, index) {
+                    Content content = _chatSession.history.toList()[index];
+                    final message = _getMessageFromContent(content);
 
-                            /// I know it's not good to include code that is not related
-                            /// to rendering the widget inside build method, but for
-                            /// creating an app quick and dirty, it's fine 😂
-                            _loadProfileCache(message.profileId);
-
-                            return _ChatBubble(
-                              message: message,
-                              profile: _profileCache[message.profileId],
+                    return MessageWidget(
+                      message: message,
+                      isFromUser: content.role == 'user',
+                    );
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: Form(
+                      key: _formKey,
+                      child: ChatField(
+                        focusNode: _focusNode,
+                        controller: _textController,
+                        isReadOnly: _isLoading,
+                        onFieldsubmitted: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            _textController.clear();
+                            _scrollController.animateTo(
+                              0.0,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
                             );
-                          },
-                        ),
-                ),
-                const _MessageBar(),
-              ],
-            );
-          } else {
-            return preloader;
-          }
-        },
-      ),
-    );
-  }
-}
-
-/// Set of widget that contains TextField and Button to submit message
-class _MessageBar extends StatefulWidget {
-  const _MessageBar();
-
-  @override
-  State<_MessageBar> createState() => _MessageBarState();
-}
-
-class _MessageBarState extends State<_MessageBar> {
-  late final TextEditingController _textController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.grey[200],
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  maxLines: null,
-                  autofocus: true,
-                  controller: _textController,
-                  decoration: const InputDecoration(
-                    hintText: 'Type a message',
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.all(8),
+                          }
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                  formSpacer,
+                  if (!_isLoading) ...[
+                    ElevatedButton(
+                      onPressed: () {
+                        _sendChatMessage(_textController.text);
+                      },
+                      child: const Text('Send'),
+                      // icon: const Icon(FontAwesomeIcons.solidPaperPlane),
+                    ),
+                  ] else ...[
+                    const CircularProgressIndicator.adaptive(),
+                  ],
+                ],
               ),
-              TextButton(
-                onPressed: () => _submitMessage(),
-                child: const Text('Send'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  @override
-  void initState() {
-    _textController = TextEditingController();
-    super.initState();
+  String _getMessageFromContent(Content content) {
+    return content.parts.whereType<TextPart>().map((e) => e.text).join('');
   }
 
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-
-  void _submitMessage() async {
-    final text = _textController.text;
-    final myUserId = supabase.auth.currentUser!.id;
-    if (text.isEmpty) {
+  Future<void> _sendChatMessage(String message) async {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    print(isValid);
+    if (!isValid) {
       return;
     }
-    _textController.clear();
+    _setLoading(true);
+
     try {
-      await supabase.from('messages').insert({
-        'profile_id': myUserId,
-        'content': text,
-      });
-    } on PostgrestException catch (error) {
-      print(error.message);
-      context.showErrorSnackBar(message: error.message);
-    } catch (_) {
-      print(unexpectedErrorMessage);
-      context.showErrorSnackBar(message: unexpectedErrorMessage);
+      final response = await _chatSession.sendMessage(
+        Content.text(message),
+      );
+      final text = response.text;
+      if (text == null) {
+        _showError('No response ');
+        _setLoading(false);
+      }
+      _setLoading(false);
+    } catch (e) {
+      _showError(e.toString());
+      _setLoading(false);
+    } finally {
+      _textController.clear();
+      _focusNode.requestFocus();
+      _setLoading(false);
     }
   }
-}
 
-class _ChatBubble extends StatelessWidget {
-  const _ChatBubble({
-    required this.message,
-    required this.profile,
-  });
-
-  final Message message;
-  final Profile? profile;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> chatContents = [
-      if (!message.isMine)
-        CircleAvatar(
-          child: profile == null
-              ? preloader
-              : Text(profile!.username.substring(0, 2)),
-        ),
-      const SizedBox(width: 12),
-      Flexible(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 12,
+  void _showError(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: SingleChildScrollView(
+            child: Text('An error occurred: $message'),
           ),
-          decoration: BoxDecoration(
-            color: message.isMine
-                ? Theme.of(context).primaryColor
-                : Colors.grey[300],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(message.content),
-        ),
-      ),
-      const SizedBox(width: 12),
-      // Text(format(message.createdAt, locale: 'en_short')),
-      const SizedBox(width: 60),
-    ];
-    if (message.isMine) {
-      chatContents = chatContents.reversed.toList();
-    }
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
-      child: Row(
-        mainAxisAlignment:
-            message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: chatContents,
-      ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

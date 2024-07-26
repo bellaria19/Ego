@@ -1,3 +1,4 @@
+
 import 'package:ego/screens/auth/auth_screen.dart';
 import 'package:ego/screens/auth/splash_screen.dart';
 import 'package:ego/screens/main_screen.dart';
@@ -13,6 +14,18 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // final apiKey =
+  //     Platform.environment['AIzaSyDeFLbJzGszyvtp7-3Vl7O_kad1Pv0NzCk'];
+  // if (apiKey == null) {
+  //   print('No \$API_KEY environment variable');
+  //   exit(1);
+  // }
+
+  // final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
+  // final content = [Content.text('Write a story about a magic backpack')];
+  // final response = await model.generateContent(content);
+  // print(response.text);
 
   // await dotenv.load(fileName: '.env');
   //

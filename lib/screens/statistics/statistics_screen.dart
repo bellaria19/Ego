@@ -17,14 +17,6 @@ class StatisticsScreen extends StatefulWidget {
   State<StatisticsScreen> createState() => _StatisticsScreenState();
 }
 
-// List<String> emotionStages = [
-//   "매우 좋음 (Ecstatic)",
-//   "좋음 (Happy)",
-//   "보통 (Neutral)",
-//   "나쁨 (Unhappy)",
-//   "매우 나쁨 (Miserable)"
-// ];
-
 class _StatisticsScreenState extends State<StatisticsScreen> {
   // Sample data for demonstration
   final List<ChartData> chartData = [

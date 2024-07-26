@@ -4,6 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// List<String> emotionStages = [
+//   "매우 좋음 (Ecstatic)",
+//   "좋음 (Happy)",
+//   "보통 (Neutral)",
+//   "나쁨 (Unhappy)",
+//   "매우 나쁨 (Miserable)"
+// ];
+
 class SelectMoodScreen extends StatefulWidget {
   const SelectMoodScreen({
     super.key,
