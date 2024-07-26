@@ -22,28 +22,44 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            const Text('Start with \nEgo....'),
-            const Divider(),
-            formSpacer,
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SignInWithGoogleButton(onPressed: () {
-                signInWithGoogle();
-              }),
+      body: Column(
+        children: [
+          const Expanded(
+            child: Center(
+              child: Text(
+                'Start with \nEgo....',
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            formSpacer,
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SignInWithAppleButton(onPressed: () {
-                signInWithApple();
-              }),
+          ),
+          const Divider(),
+          formSpacer,
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SignInWithGoogleButton(onPressed: () {
+                    signInWithGoogle();
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SignInWithAppleButton(onPressed: () {
+                    signInWithApple();
+                  }),
+                ),
+                formSpacer,
+              ],
             ),
-          ],
-        ),
+          ),
+          formSpacer,
+        ],
       ),
     );
   }
