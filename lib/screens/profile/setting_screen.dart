@@ -1,10 +1,10 @@
 import 'package:ego/main.dart';
 import 'package:ego/utils/constants.dart';
-import 'package:ego/widget/reusable_switch_tile.dart';
 import 'package:ego/widget/set_list_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
@@ -33,39 +33,104 @@ class _DetailScreenState extends State<DetailScreen> {
   bool emotionAlarm = false;
 
   void updateUsername() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        TextEditingController controller = TextEditingController();
-        return AlertDialog(
-          title: const Text('닉네임 변경'),
-          content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              hintText: 'Enter new username',
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          TextEditingController controller = TextEditingController();
+          return SizedBox(
+            height: MediaQuery.of(context).size.height / 3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text(
+                  '새로운 닉네임을 입력해주세요',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffE1E3EF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: TextField(
+                      maxLength: 10,
+                      controller: controller,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: '새로운 닉네임',
+                        counterText: '',
+                        suffixIcon: IconButton(
+                          onPressed: controller.clear,
+                          icon: const Icon(FontAwesomeIcons.xmark),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  '언제든지 다시 바꿀 수 있어요.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Color(0xff9B9B9B),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      userData.setUsername = controller.text;
+                      print(userData.getUsername);
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black),
+                  child: const Text('완료하기'),
+                ),
+                formSpacer,
+              ],
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('취소'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('확인'),
-              onPressed: () {
-                setState(() {
-                  userData.setUsername = controller.text;
-                  print(userData.getUsername);
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+          );
+        });
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     TextEditingController controller = TextEditingController();
+    //     return
+    //       AlertDialog(
+    //       title: const Text('닉네임 변경'),
+    //       content: TextField(
+    //         controller: controller,
+    //         decoration: const InputDecoration(
+    //           hintText: 'Enter new username',
+    //         ),
+    //       ),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           child: const Text('취소'),
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //         ),
+    //         TextButton(
+    //           child: const Text('확인'),
+    //           onPressed: () {
+    //             setState(() {
+    //               userData.setUsername = controller.text;
+    //               print(userData.getUsername);
+    //             });
+    //             Navigator.of(context).pop();
+    //           },
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
 
   @override
@@ -138,45 +203,6 @@ class _DetailScreenState extends State<DetailScreen> {
                   );
                 },
               );
-            },
-          ),
-          const Divider(
-            height: 15,
-          ),
-          ReusableSwitchTile(
-            title: '퀘스트 알림',
-            value: questAlarm,
-            onChanged: (bool value) {
-              setState(() {
-                questAlarm = value;
-              });
-            },
-          ),
-          ReusableSwitchTile(
-            title: '감정 알림',
-            value: emotionAlarm,
-            onChanged: (bool value) {
-              setState(() {
-                emotionAlarm = value;
-              });
-            },
-          ),
-          SetListTile(
-            title: '알림 시간',
-            subtitle: selectedTime != null
-                ? formatTimeOfDay(context, selectedTime!)
-                : '',
-            onTap: () {
-              showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-              ).then((time) {
-                if (time != null) {
-                  setState(() {
-                    selectedTime = time;
-                  });
-                }
-              });
             },
           ),
           const Divider(

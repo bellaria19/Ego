@@ -26,6 +26,7 @@ const unexpectedErrorMessage = 'Unexpected error occurred.';
 /// Basic theme to change the look and feel of the app
 final appTheme = ThemeData.light().copyWith(
   primaryColorDark: Colors.orange,
+  textTheme: Typography().black.apply(fontFamily: 'NotoSansKR'),
   appBarTheme: const AppBarTheme(
     elevation: 1,
     backgroundColor: Colors.white,
