@@ -1,13 +1,7 @@
 import 'package:ego/models/quest.dart';
+import 'package:ego/utils/quest_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-const Map<QuestCategory, String> categoryMap = {
-  QuestCategory.todo: '투두',
-  QuestCategory.write: '쓰기',
-  QuestCategory.picture: '사진',
-  QuestCategory.chat: '대화',
-};
 
 class QuestCard extends StatefulWidget {
   const QuestCard({
@@ -38,7 +32,7 @@ class _QuestCardState extends State<QuestCard> {
                 margin: const EdgeInsets.only(left: 14, top: 4),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  categoryMap[widget.quest.category] ?? 'Unknown',
+                  categoryToString[widget.quest.category] ?? 'Unknown',
                 ),
               ),
               Container(
@@ -74,7 +68,8 @@ class _QuestCardState extends State<QuestCard> {
                         widget.quest.isComplete = true;
                       });
                     },
-                    child: const Text('완료')),
+                    child: const Text('완료'),
+                  ),
           ),
         ],
       ),

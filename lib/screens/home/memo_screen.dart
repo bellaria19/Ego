@@ -1,4 +1,5 @@
-import 'package:ego/screens/home/recommend_screen.dart';
+import 'package:ego/models/emotion.dart';
+import 'package:ego/screens/home/select_quest_screen.dart';
 import 'package:ego/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,40 +8,39 @@ import 'package:google_fonts/google_fonts.dart';
 class MemoScreen extends StatefulWidget {
   const MemoScreen({
     super.key,
+    required this.emotion,
+    required this.keyword,
   });
+
+  final EmotionType emotion;
+  final String keyword;
 
   @override
   State<MemoScreen> createState() => _MemoScreenState();
 }
 
 class _MemoScreenState extends State<MemoScreen> {
+  late final TextEditingController _textController;
+  late final FocusNode _focusNode;
   String memo = '';
-  final TextEditingController controller = TextEditingController();
-  bool _isEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(_updateButtonState);
+    _textController = TextEditingController();
+    _focusNode = FocusNode();
   }
 
   @override
   void dispose() {
-    controller.removeListener(_updateButtonState);
-    controller.dispose();
+    _textController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
-  void _updateButtonState() {
+  void setMemo(String newMemo) {
     setState(() {
-      _isEnabled = controller.text.isNotEmpty;
-    });
-  }
-
-  void setMemo(String memoText) {
-    setState(() {
-      memo = memoText;
-      Navigator.of(context).pushReplacement(MainScreen.route());
+      memo = newMemo;
     });
   }
 
@@ -79,43 +79,33 @@ class _MemoScreenState extends State<MemoScreen> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height / 4,
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height / 4,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black,
-                    width: 5,
+                    width: 3,
                   ),
                   color: Colors.white,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: TextField(
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: '간단한 메모를 입력해보세요',
-                        ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: MemoField(
+                        // focusNode: _focusNode,
+                        controller: _textController,
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        const RecommendScreen(),
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  return child;
-                                },
-                              ),
-                            );
+                            setMemo('');
+                            _navigateToSelectQuest();
+                            makeEmotionItem(widget.emotion, widget.keyword, '');
                           },
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -128,27 +118,19 @@ class _MemoScreenState extends State<MemoScreen> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _isEnabled
+                          onPressed: _textController.text.isNotEmpty
                               ? () {
-                                  Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          const RecommendScreen(),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        return child;
-                                      },
-                                    ),
-                                  );
-                                  // Navigator.of(context).pushAndRemoveUntil(
-                                  //     MainScreen.route(), (route) => false);
+                                  setMemo(_textController.text);
+                                  _navigateToSelectQuest();
+                                  makeEmotionItem(
+                                      widget.emotion, widget.keyword, memo);
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              foregroundColor: Colors.white,
                               backgroundColor: Colors.black),
                           child: const Text('완료하기'),
                         ),
@@ -163,60 +145,63 @@ class _MemoScreenState extends State<MemoScreen> {
       ),
     );
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   final TextEditingController controller = TextEditingController();
 
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       actions: [
-  //         IconButton(
-  //           onPressed: () {
-  //             Navigator.of(context).pushReplacement(MainScreen.route());
-  //           },
-  //           icon: const Icon(FontAwesomeIcons.xmark),
-  //         ),
-  //       ],
-  //     ),
-  //     body: Container(
-  //       decoration: const BoxDecoration(
-  //         image: DecorationImage(
-  //           image: AssetImage('assets/background/home.jpg'),
-  //           fit: BoxFit.cover,
-  //         ),
-  //       ),
-  //       child: Center(
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             Text(
-  //               '메모를 입력하세요',
-  //               style: GoogleFonts.nanumGothicCoding(
-  //                 fontSize: 24,
-  //                 fontWeight: FontWeight.w700,
-  //               ),
-  //             ),
-  //             Padding(
-  //               padding: const EdgeInsets.all(16.0),
-  //               child: TextField(
-  //                 controller: controller,
-  //                 decoration: const InputDecoration(
-  //                   border: OutlineInputBorder(),
-  //                   labelText: '메모',
-  //                 ),
-  //                 maxLines: 4,
-  //               ),
-  //             ),
-  //             ElevatedButton(
-  //               onPressed: () {
-  //                 setMemo(controller.text);
-  //               },
-  //               child: const Text('저장'),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  void _navigateToSelectQuest() {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            SelectQuestScreen(keyword: widget.keyword),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      ),
+    );
+  }
+
+  void makeEmotionItem(EmotionType emotion, String keyword, String memo) {
+    Emotion newEmotion = Emotion(
+      date: DateTime.now(),
+      emotion: emotion,
+      keyword: keyword,
+      memo: memo,
+    );
+    print(
+        'date: ${newEmotion.date}\n emotion: ${newEmotion.emotion}\n keyword: ${newEmotion.keyword}\n memo: ${newEmotion.memo}');
+  }
+}
+
+class MemoField extends StatelessWidget {
+  const MemoField({
+    super.key,
+    // this.focusNode,
+    this.controller,
+  });
+
+  // final FocusNode? focusNode;
+  final TextEditingController? controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.text,
+      maxLines: null,
+      autofocus: true,
+      // focusNode: focusNode,
+      controller: controller,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(8),
+        hintText: 'Write a text',
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(32)),
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.secondary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(32)),
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.secondary),
+        ),
+      ),
+    );
+  }
 }

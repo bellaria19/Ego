@@ -1,6 +1,6 @@
+import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/chat_field.dart';
 import 'package:ego/widget/message_widget.dart';
-import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -13,10 +13,10 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late GenerativeModel _model;
-  late ScrollController _scrollController;
-  late TextEditingController _textController;
-  late FocusNode _focusNode;
+  late final GenerativeModel _model;
+  late final ScrollController _scrollController;
+  late final TextEditingController _textController;
+  late final FocusNode _focusNode;
   late ChatSession _chatSession;
   late bool _isLoading;
 

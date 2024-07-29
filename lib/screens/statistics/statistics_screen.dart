@@ -1,14 +1,13 @@
-import 'package:ego/models/chartData.dart';
-import 'package:ego/widget/stat_card.dart';
+import 'package:ego/models/chart_data.dart';
+import 'package:ego/screens/statistics/annual_report_screen.dart';
+import 'package:ego/screens/statistics/monthly_report_screen.dart';
 import 'package:ego/utils/constants.dart';
+import 'package:ego/widget/stat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import 'annual_report_screen.dart';
-import 'monthly_report_screen.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -23,8 +22,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     ChartData('Ecstatic', 10),
     ChartData('Happy', 30),
     ChartData('Neutral', 30),
-    ChartData('Sad', 20),
-    ChartData('Angry', 10),
+    ChartData('Unhappy', 20),
+    ChartData('Miserable', 10),
   ];
 
   // Sample icons, replace with actual icons for different emotions
@@ -32,13 +31,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     'Ecstatic': FontAwesomeIcons.faceLaugh,
     'Happy': FontAwesomeIcons.faceSmile,
     'Neutral': FontAwesomeIcons.faceMeh,
-    'Sad': FontAwesomeIcons.faceFrown,
-    'Angry': FontAwesomeIcons.faceAngry,
+    'Unhappy': FontAwesomeIcons.faceFrown,
+    'Miserable': FontAwesomeIcons.faceAngry,
   };
 
   final List<Map<String, dynamic>> selectedEmotion = [
     {'emotion': 'Happy'},
-    {'emotion': 'Sad'},
+    {'emotion': 'Unhappy'},
     {'emotion': 'Neutral'},
   ];
 

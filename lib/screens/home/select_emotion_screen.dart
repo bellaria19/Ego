@@ -1,36 +1,32 @@
+import 'package:ego/models/emotion.dart';
 import 'package:ego/screens/home/select_keyword_screen.dart';
 import 'package:ego/screens/main_screen.dart';
+import 'package:ego/widget/emotion_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// List<String> emotionStages = [
-//   "매우 좋음 (Ecstatic)",
-//   "좋음 (Happy)",
-//   "보통 (Neutral)",
-//   "나쁨 (Unhappy)",
-//   "매우 나쁨 (Miserable)"
-// ];
-
-class SelectMoodScreen extends StatefulWidget {
-  const SelectMoodScreen({
+class SelectEmotionScreen extends StatefulWidget {
+  const SelectEmotionScreen({
     super.key,
   });
 
   @override
-  State<SelectMoodScreen> createState() => _SelectMoodScreenState();
+  State<SelectEmotionScreen> createState() => _SelectEmotionScreenState();
 }
 
-class _SelectMoodScreenState extends State<SelectMoodScreen> {
-  String mood = '';
+class _SelectEmotionScreenState extends State<SelectEmotionScreen> {
+  String emotion = '';
+  late final EmotionType selectedEmotion;
 
-  void onMoodSelected(String selectedMood) {
+  void onEmotionSelected(EmotionType emotion) {
     setState(() {
-      mood = selectedMood;
+      selectedEmotion = emotion;
+      print(selectedEmotion);
       Navigator.of(context).push(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const SelectKeywordScreen(),
+              SelectKeywordScreen(emotion: selectedEmotion),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return child;
           },
@@ -41,6 +37,29 @@ class _SelectMoodScreenState extends State<SelectMoodScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> emotionButtons = [
+      {
+        'emotion': EmotionType.ecstatic,
+        'icon': FontAwesomeIcons.faceSmileBeam,
+      },
+      {
+        'emotion': EmotionType.happy,
+        'icon': FontAwesomeIcons.faceSmile,
+      },
+      {
+        'emotion': EmotionType.neutral,
+        'icon': FontAwesomeIcons.faceMeh,
+      },
+      {
+        'emotion': EmotionType.unhappy,
+        'icon': FontAwesomeIcons.faceFrown,
+      },
+      {
+        'emotion': EmotionType.miserable,
+        'icon': FontAwesomeIcons.faceSadCry,
+      },
+    ];
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -74,7 +93,7 @@ class _SelectMoodScreenState extends State<SelectMoodScreen> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height / 4,
+                height: MediaQuery.of(context).size.height / 5,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.black,
@@ -84,38 +103,14 @@ class _SelectMoodScreenState extends State<SelectMoodScreen> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton.filledTonal(
-                      onPressed: () {
-                        onMoodSelected('Ecstatic');
-                      },
-                      icon: const Icon(FontAwesomeIcons.faceSmileBeam),
-                    ),
-                    IconButton.filledTonal(
-                      onPressed: () {
-                        onMoodSelected('Happy');
-                      },
-                      icon: const Icon(FontAwesomeIcons.faceSmile),
-                    ),
-                    IconButton.filledTonal(
-                      onPressed: () {
-                        onMoodSelected('Neutral');
-                      },
-                      icon: const Icon(FontAwesomeIcons.faceMeh),
-                    ),
-                    IconButton.filledTonal(
-                      onPressed: () {
-                        onMoodSelected('Unhappy');
-                      },
-                      icon: const Icon(FontAwesomeIcons.faceFrown),
-                    ),
-                    IconButton.filledTonal(
-                      onPressed: () {
-                        onMoodSelected('Miserable');
-                      },
-                      icon: const Icon(FontAwesomeIcons.faceSadCry),
-                    ),
-                  ],
+                  children: emotionButtons.map((emotionData) {
+                    return EmotionButton(
+                      emotion: emotionData['emotion'],
+                      icon: emotionData['icon'],
+                      onPressed: () =>
+                          onEmotionSelected(emotionData['emotion']),
+                    );
+                  }).toList(),
                 ),
               ),
             ],

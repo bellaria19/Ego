@@ -22,6 +22,14 @@ class Emotion {
   });
 }
 
+Map<EmotionType, String> emotionDescriptions = {
+  EmotionType.ecstatic: 'Ecstatic',
+  EmotionType.happy: 'Happy',
+  EmotionType.neutral: 'Neutral',
+  EmotionType.unhappy: 'Unhappy',
+  EmotionType.miserable: 'Miserable',
+};
+
 // 임의의 데이터 생성 함수
 List<Emotion> generateSampleEmotions(int count) {
   List<Emotion> emotions = [];

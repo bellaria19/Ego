@@ -1,6 +1,7 @@
 import 'package:ego/models/quest.dart';
-import 'package:ego/widget/quest_card.dart';
 import 'package:ego/utils/constants.dart';
+import 'package:ego/utils/quest_constants.dart';
+import 'package:ego/widget/quest_card.dart';
 import 'package:flutter/material.dart';
 
 import 'empty_quest.dart';
@@ -131,10 +132,11 @@ class _QuestScreenState extends State<QuestScreen> {
   }
 }
 
-const List<String> category = ['전체', '투두', '쓰기', '사진', '대화'];
-const Map<String, QuestCategory> categoryMap = {
-  '투두': QuestCategory.todo,
-  '쓰기': QuestCategory.write,
-  '사진': QuestCategory.picture,
-  '대화': QuestCategory.chat
-};
+// const List<String> category = ['전체', '투두', '쓰기', '사진', '대화'];
+//
+// const Map<String, QuestCategory> categoryMap = {
+//   '투두': QuestCategory.todo,
+//   '쓰기': QuestCategory.write,
+//   '사진': QuestCategory.picture,
+//   '대화': QuestCategory.chat
+// };
