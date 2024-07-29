@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ego/screens/main_screen.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/auth_google_btn.dart';
@@ -48,12 +50,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     signInWithGoogle();
                   }),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SignInWithAppleButton(onPressed: () {
-                    signInWithApple();
-                  }),
-                ),
+                if (Platform.isIOS)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SignInWithAppleButton(onPressed: () {
+                      signInWithApple();
+                    }),
+                  ),
                 formSpacer,
               ],
             ),
