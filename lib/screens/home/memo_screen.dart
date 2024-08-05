@@ -1,6 +1,7 @@
 import 'package:ego/models/emotion.dart';
 import 'package:ego/screens/home/select_quest_screen.dart';
 import 'package:ego/screens/main_screen.dart';
+import 'package:ego/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -123,7 +124,10 @@ class _MemoScreenState extends State<MemoScreen> {
                                   setMemo(_textController.text);
                                   _navigateToSelectQuest();
                                   makeEmotionItem(
-                                      widget.emotion, widget.keyword, memo);
+                                    widget.emotion,
+                                    widget.keyword,
+                                    memo,
+                                  );
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
@@ -165,6 +169,7 @@ class _MemoScreenState extends State<MemoScreen> {
       keyword: keyword,
       memo: memo,
     );
+    firestoreService.addEmotion(newEmotion);
     debugPrint(
         'date: ${newEmotion.date}\n emotion: ${newEmotion.emotion}\n keyword: ${newEmotion.keyword}\n memo: ${newEmotion.memo}');
   }

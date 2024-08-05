@@ -21,6 +21,21 @@ class Quest {
     required this.isComplete,
     this.rate,
   });
+
+  toJson() => {
+        'category': category.index,
+        'title': title,
+        'date': date,
+        'isComplete': isComplete,
+        'rate': rate,
+      };
+
+  Quest.fromMap(Map<String, dynamic> data)
+      : category = QuestCategory.values[data['category']],
+        title = data['title'],
+        date = data['date'],
+        isComplete = data['isComplete'],
+        rate = data['rate'];
 }
 
 // 임의의 데이터 생성 함수

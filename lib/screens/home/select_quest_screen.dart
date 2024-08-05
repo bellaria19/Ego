@@ -18,7 +18,8 @@ class SelectQuestScreen extends StatefulWidget {
 }
 
 class _SelectQuestScreenState extends State<SelectQuestScreen> {
-  String? selectedQuest;
+  String? selectedQuestTitle;
+  late Quest selectedQuest;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,8 @@ class _SelectQuestScreenState extends State<SelectQuestScreen> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          selectedQuest = quest.title;
+                          selectedQuest = quest;
+                          selectedQuestTitle = selectedQuest.title;
                         });
                       },
                       child: Container(
@@ -76,7 +78,7 @@ class _SelectQuestScreenState extends State<SelectQuestScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: selectedQuest == quest.title
+                            color: selectedQuestTitle == quest.title
                                 ? Colors.blue
                                 : Colors.black,
                             width: 2,
@@ -139,14 +141,16 @@ class _SelectQuestScreenState extends State<SelectQuestScreen> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: selectedQuest != null
+                        onPressed: selectedQuestTitle != null
                             ? () {
+                                firestoreService.addQuest(selectedQuest);
                                 // Handle quest selection
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const MainScreen()));
-                                debugPrint('Selected Quest: $selectedQuest');
+                                debugPrint(
+                                    'Selected Quest: $selectedQuestTitle');
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
@@ -154,7 +158,7 @@ class _SelectQuestScreenState extends State<SelectQuestScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             foregroundColor: Colors.white,
-                            backgroundColor: selectedQuest != null
+                            backgroundColor: selectedQuestTitle != null
                                 ? Colors.black
                                 : Colors.grey),
                         child: const Text('완료하기'),

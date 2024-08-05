@@ -2,9 +2,11 @@ import 'package:ego/models/emotion.dart';
 import 'package:flutter/material.dart';
 
 class EmotionCard extends StatefulWidget {
-  const EmotionCard({super.key, required this.emotion});
+  const EmotionCard(
+      {super.key, required this.emotion, required this.onPressed});
 
   final Emotion emotion;
+  final void Function() onPressed;
 
   @override
   State<EmotionCard> createState() => _EmotionCardState();
@@ -40,7 +42,7 @@ class _EmotionCardState extends State<EmotionCard> {
               children: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.edit),
-                  onPressed: () {},
+                  onPressed: () => widget.onPressed,
                 ),
                 // IconButton(
                 //   icon: const Icon(Icons.delete),

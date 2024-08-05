@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ego/models/emotion.dart';
-import 'package:ego/widget/emotion_card.dart';
 import 'package:ego/screens/record/empty_emotion.dart';
+import 'package:ego/utils/constants.dart';
+import 'package:ego/widget/emotion_card.dart';
 import 'package:flutter/material.dart';
 
 class EmotionScreen extends StatefulWidget {
@@ -12,6 +14,8 @@ class EmotionScreen extends StatefulWidget {
 
 class _EmotionScreenState extends State<EmotionScreen> {
   List<Emotion> emotionList = [];
+
+  final TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
@@ -28,6 +32,30 @@ class _EmotionScreenState extends State<EmotionScreen> {
   String _selectedYear = DateTime.now().year.toString();
   final List<String> _years =
       List.generate(1, (index) => (DateTime.now().year - index).toString());
+
+  void editMemo(String? docId, Emotion emotion) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: TextField(
+          controller: textController,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              emotion.setMemo(textController.text);
+              firestoreService.updateEmotion(docId!, emotion);
+
+              textController.clear();
+
+              Navigator.pop(context);
+            },
+            child: const Text('edit'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +84,37 @@ class _EmotionScreenState extends State<EmotionScreen> {
               ],
             ),
           ),
+          StreamBuilder<QuerySnapshot>(
+            stream: firestoreService.getEmotionsStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List emotionsList = snapshot.data!.docs;
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: emotionsList.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = emotionsList[index];
+                      String docId = document.id;
+
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
+                      final emotion = Emotion.fromMap(data);
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: EmotionCard(
+                          emotion: emotion,
+                          onPressed: () => editMemo(docId, emotion),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return const EmptyEmotion();
+              }
+            },
+          ),
           emotionList.isEmpty
               ? const EmptyEmotion()
               : Expanded(
@@ -66,7 +125,10 @@ class _EmotionScreenState extends State<EmotionScreen> {
                       final emotion = emotionList[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: EmotionCard(emotion: emotion),
+                        child: EmotionCard(
+                          emotion: emotion,
+                          onPressed: () => editMemo('1', emotion),
+                        ),
                       );
                     },
                   ),

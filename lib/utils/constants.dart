@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ego/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ const String geminiModel = 'gemini-1.5-flash';
 
 final firebase = FirebaseAuth.instance;
 final db = FirebaseFirestore.instance;
+final firestoreService = FirestoreService();
 
 /// Simple preloader inside a Center widget
 const preloader =

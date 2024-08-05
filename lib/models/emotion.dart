@@ -12,7 +12,15 @@ class Emotion {
   final DateTime date;
   final EmotionType emotion;
   final String keyword;
-  final String memo;
+  String memo;
+
+  String getMemo() {
+    return memo;
+  }
+
+  void setMemo(String newMemo) {
+    memo = newMemo;
+  }
 
   Emotion({
     required this.date,
@@ -20,6 +28,19 @@ class Emotion {
     required this.keyword,
     required this.memo,
   });
+
+  toJson() => {
+        'date': date,
+        'emotion': emotion.index,
+        'keyword': keyword,
+        'memo': memo,
+      };
+
+  Emotion.fromMap(Map<String, dynamic> map)
+      : date = map['date'],
+        emotion = EmotionType.values[map['emotion']],
+        keyword = map['keyword'],
+        memo = map['memo'];
 }
 
 Map<EmotionType, String> emotionDescriptions = {

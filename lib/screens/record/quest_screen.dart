@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ego/models/quest.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:ego/utils/constants_data.dart';
@@ -112,6 +113,34 @@ class _QuestScreenState extends State<QuestScreen> {
           ),
         ),
         formSpacer,
+        StreamBuilder<QuerySnapshot>(
+          stream: firestoreService.getEmotionsStream(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List emotionsList = snapshot.data!.docs;
+              return Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: emotionsList.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = emotionsList[index];
+                    String docId = document.id;
+
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
+                    final quest = Quest.fromMap(data);
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: QuestCard(quest: quest),
+                    );
+                  },
+                ),
+              );
+            } else {
+              return const EmptyQuest();
+            }
+          },
+        ),
         filteredQuestList.isEmpty
             ? const EmptyQuest()
             : Expanded(

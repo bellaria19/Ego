@@ -7,7 +7,6 @@ import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/record_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final UserModelProvider _provider = UserModelProvider();
-  late Future<UserModel> user;
+  late UserModel user;
   List<Emotion> dummyEmotions = generateSampleEmotions(10);
   List<Quest> dummyQuests = generateSampleQuests(10);
 
@@ -26,8 +25,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    user = _provider.getUser();
-    print(user.isBlank);
+    user = _provider.user ?? _provider.defaultUser;
+    print(user.username);
   }
 
   // Future<UserModel?> getUserData() async {
@@ -72,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('default',
+                      Text(user.username,
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold)),
                       Text(
