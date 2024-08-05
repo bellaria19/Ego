@@ -1,14 +1,14 @@
 import 'package:ego/models/emotion.dart';
 import 'package:ego/models/quest.dart';
-import 'package:ego/widget/record_card.dart';
+import 'package:ego/models/user_model.dart';
+import 'package:ego/provider/user_provider.dart';
 import 'package:ego/screens/profile/setting_screen.dart';
 import 'package:ego/utils/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ego/widget/record_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
-
-import '../../models/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,19 +16,36 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-Profile userData = Profile(
-  id: '0',
-  username: 'Username',
-  createdAt: DateTime(2024, 7, 1),
-  gender: 'male',
-  birthday: DateTime(2000, 12, 19),
-);
-
 class _ProfileScreenState extends State<ProfileScreen> {
-  FirebaseAuth user = FirebaseAuth.instance;
-
+  final UserModelProvider _provider = UserModelProvider();
+  late Future<UserModel> user;
   List<Emotion> dummyEmotions = generateSampleEmotions(10);
   List<Quest> dummyQuests = generateSampleQuests(10);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = _provider.getUser();
+    print(user.isBlank);
+  }
+
+  // Future<UserModel?> getUserData() async {
+  //   try {
+  //     DocumentSnapshot<Map<String, dynamic>> doc =
+  //         await db.collection('Users').doc(firebase.currentUser?.uid).get();
+  //     if (doc.exists) {
+  //       _user = UserModel.fromMap(doc.data()!);
+  //       debugPrint(_user.toString());
+  //     } else {
+  //       debugPrint('not exists ${doc.toString()}');
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //   }
+  //   return null;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +72,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(userData.getUsername,
-                          style: const TextStyle(
+                      const Text('default',
+                          style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold)),
                       Text(
                         DateFormat('yyyy년 MM월 dd일')
-                            .format(userData.createdAt)
+                            .format(DateTime.now())
                             .toString(),
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500),
@@ -74,8 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              DetailScreen(userData: userData),
+                          builder: (context) => const DetailScreen(),
                         ),
                       );
                     },

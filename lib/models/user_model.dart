@@ -1,5 +1,7 @@
-class Client {
-  Client({
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UserModel {
+  UserModel({
     required this.id,
     required this.username,
     required this.createdAt,
@@ -46,18 +48,18 @@ class Client {
     birthday = newBirthday;
   }
 
-  Client.fromMap(Map<String, dynamic> map)
+  UserModel.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         username = map['username'],
         createdAt = DateTime.parse(map['createdAt']),
         gender = map['gender'],
         birthday = DateTime.parse(map['birthday']);
 
-  Map<String, dynamic> toJson() => {
+  toJson() => {
         'id': id,
         'username': username,
-        'createdAt': createdAt.toIso8601String(),
+        'createdAt': Timestamp.fromDate(createdAt),
         'gender': gender,
-        'birthday': birthday.toIso8601String(),
+        'birthday': Timestamp.fromDate(birthday),
       };
 }

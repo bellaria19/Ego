@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ego/screens/auth/set_profile_screen.dart';
 import 'package:ego/screens/main_screen.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/auth_google_btn.dart';
@@ -40,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
           const Divider(),
           formSpacer,
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -82,24 +83,45 @@ class _AuthScreenState extends State<AuthScreen> {
     );
     // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
-      print(value.user?.email);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const MainScreen(),
-      ));
+      // FirebaseAuth.instance.currentUser
+      //     ?.reauthenticateWithProvider(GoogleAuthProvider())
+      //     .then((result) {
+      //   debugPrint(result.additionalUserInfo?.isNewUser);
+      if (value.additionalUserInfo!.isNewUser) {
+        debugPrint('new user');
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const SetProfileScreen(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const MainScreen(),
+          ),
+        );
+      }
     }).onError((error, stackTrace) {
-      print('error $error');
+      debugPrint('error $error');
     });
   }
 
   void signInWithApple() async {
     final appleProvider = AppleAuthProvider();
     await FirebaseAuth.instance.signInWithProvider(appleProvider).then((value) {
-      print(value.user?.email);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const MainScreen(),
-      ));
+      debugPrint(value.user?.email);
+      FirebaseAuth.instance.currentUser
+          ?.reauthenticateWithProvider(appleProvider)
+          .then((result) {
+        debugPrint(result.additionalUserInfo?.isNewUser.toString());
+      });
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MainScreen(),
+        ),
+      );
     }).onError((error, stackTrace) {
-      print('error $error');
+      debugPrint('error $error');
     });
   }
 }
