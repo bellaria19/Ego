@@ -52,68 +52,76 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: _chatSession.history.length,
-                  itemBuilder: (context, index) {
-                    Content content = _chatSession.history.toList()[index];
-                    final message = _getMessageFromContent(content);
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background/chat.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: _chatSession.history.length,
+                    itemBuilder: (context, index) {
+                      Content content = _chatSession.history.toList()[index];
+                      final message = _getMessageFromContent(content);
 
-                    return MessageWidget(
-                      message: message,
-                      isFromUser: content.role == 'user',
-                    );
-                  },
+                      return MessageWidget(
+                        message: message,
+                        isFromUser: content.role == 'user',
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Flexible(
-                    flex: 3,
-                    child: Form(
-                      key: _formKey,
-                      child: ChatField(
-                        focusNode: _focusNode,
-                        controller: _textController,
-                        isReadOnly: _isLoading,
-                        onFieldsubmitted: (value) {
-                          if (value != null && value.isNotEmpty) {
-                            _textController.clear();
-                            _scrollController.animateTo(
-                              0.0,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeOut,
-                            );
-                          }
-                        },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: Form(
+                        key: _formKey,
+                        child: ChatField(
+                          focusNode: _focusNode,
+                          controller: _textController,
+                          isReadOnly: _isLoading,
+                          onFieldsubmitted: (value) {
+                            if (value != null && value.isNotEmpty) {
+                              _textController.clear();
+                              _scrollController.animateTo(
+                                0.0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeOut,
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  formSpacer,
-                  if (!_isLoading) ...[
-                    ElevatedButton(
-                      onPressed: () {
-                        _sendChatMessage(_textController.text);
-                      },
-                      child: const Text('Send'),
-                      // icon: const Icon(FontAwesomeIcons.solidPaperPlane),
-                    ),
-                  ] else ...[
-                    const CircularProgressIndicator.adaptive(),
+                    formSpacer,
+                    if (!_isLoading) ...[
+                      ElevatedButton(
+                        onPressed: () {
+                          _sendChatMessage(_textController.text);
+                        },
+                        child: const Text('Send'),
+                        // icon: const Icon(FontAwesomeIcons.solidPaperPlane),
+                      ),
+                    ] else ...[
+                      const CircularProgressIndicator.adaptive(),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
