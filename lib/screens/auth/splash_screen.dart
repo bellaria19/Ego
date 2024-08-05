@@ -24,7 +24,7 @@ class SplashScreenState extends State<SplashScreen> {
           if (user == null) {
             return const AuthScreen();
           } else {
-            print(user.email);
+            debugPrint(user.email);
             return const MainScreen();
           }
         }

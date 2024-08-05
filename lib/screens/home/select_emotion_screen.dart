@@ -22,7 +22,7 @@ class _SelectEmotionScreenState extends State<SelectEmotionScreen> {
   void onEmotionSelected(EmotionType emotion) {
     setState(() {
       selectedEmotion = emotion;
-      print(selectedEmotion);
+      debugPrint(selectedEmotion.toString());
       Navigator.of(context).push(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>

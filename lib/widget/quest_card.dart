@@ -1,5 +1,5 @@
 import 'package:ego/models/quest.dart';
-import 'package:ego/utils/quest_constants.dart';
+import 'package:ego/utils/constants_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -59,7 +59,7 @@ class _QuestCardState extends State<QuestCard> {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {
-                      print(rating);
+                      debugPrint(rating.toString());
                     },
                   )
                 : TextButton(

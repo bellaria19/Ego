@@ -15,3 +15,9 @@ const Map<QuestCategory, String> categoryToString = {
   QuestCategory.picture: '사진',
   QuestCategory.chat: '대화',
 };
+
+const List gender = [
+  'Male',
+  'Female',
+  'Other',
+];

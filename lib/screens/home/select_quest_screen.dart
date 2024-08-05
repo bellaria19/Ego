@@ -1,7 +1,7 @@
 import 'package:ego/models/quest.dart';
 import 'package:ego/screens/main_screen.dart';
 import 'package:ego/utils/constants.dart';
-import 'package:ego/utils/quest_constants.dart';
+import 'package:ego/utils/constants_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +14,7 @@ class SelectQuestScreen extends StatefulWidget {
   final String keyword;
 
   @override
-  _SelectQuestScreenState createState() => _SelectQuestScreenState();
+  State<SelectQuestScreen> createState() => _SelectQuestScreenState();
 }
 
 class _SelectQuestScreenState extends State<SelectQuestScreen> {
@@ -126,7 +126,7 @@ class _SelectQuestScreenState extends State<SelectQuestScreen> {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => MainScreen()));
+                                  builder: (context) => const MainScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -144,8 +144,9 @@ class _SelectQuestScreenState extends State<SelectQuestScreen> {
                                 // Handle quest selection
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => MainScreen()));
-                                print('Selected Quest: $selectedQuest');
+                                        builder: (context) =>
+                                            const MainScreen()));
+                                debugPrint('Selected Quest: $selectedQuest');
                               }
                             : null,
                         style: ElevatedButton.styleFrom(

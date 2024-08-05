@@ -165,7 +165,7 @@ class _MemoScreenState extends State<MemoScreen> {
       keyword: keyword,
       memo: memo,
     );
-    print(
+    debugPrint(
         'date: ${newEmotion.date}\n emotion: ${newEmotion.emotion}\n keyword: ${newEmotion.keyword}\n memo: ${newEmotion.memo}');
   }
 }

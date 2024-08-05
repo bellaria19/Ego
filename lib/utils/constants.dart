@@ -1,14 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const String apiKey = 'AIzaSyDeFLbJzGszyvtp7-3Vl7O_kad1Pv0NzCk';
 const String geminiModel = 'gemini-1.5-flash';
 
 /// Supabase client
-final supabase = Supabase.instance.client;
+// final supabase = Supabase.instance.client;
 
 final firebase = FirebaseAuth.instance;
+final db = FirebaseFirestore.instance;
 
 /// Simple preloader inside a Center widget
 const preloader =

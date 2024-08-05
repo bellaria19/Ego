@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'chat/chat_screen.dart';
-import 'statistics/statistics_screen.dart';
 import 'home/home_screen.dart';
-import 'record/record_screen.dart';
 import 'profile/profile_screen.dart';
+import 'record/record_screen.dart';
+import 'statistics/statistics_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: _widgetOptions.elementAt(_selectedIndex),

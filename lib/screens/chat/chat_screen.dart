@@ -125,7 +125,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> _sendChatMessage(String message) async {
     final isValid = _formKey.currentState?.validate() ?? false;
-    print(isValid);
+    debugPrint(isValid.toString());
     if (!isValid) {
       return;
     }
