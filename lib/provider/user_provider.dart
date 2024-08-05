@@ -2,30 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ego/models/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class UserProvider extends GetxController {
-  static UserProvider get instance => Get.find();
-
-  final _db = FirebaseFirestore.instance;
-
-  createUser(UserModel user) async {
-    await _db.collection('Users').add(user.toJson()).whenComplete(() {
-      Get.snackbar(
-        'Success',
-        'Your account has been created.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }).catchError((error, stackTrace) {
-      Get.snackbar(
-        'Error',
-        'Something went wrong. Try again',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    });
-  }
-}
 
 class UserModelProvider extends ChangeNotifier {
   UserModel? _user;
@@ -33,6 +10,12 @@ class UserModelProvider extends ChangeNotifier {
   UserModel? get user => _user;
 
   final _db = FirebaseFirestore.instance;
+
+  CollectionReference collRef = FirebaseFirestore.instance.collection('Users');
+
+  Future addUserDetails(UserModel user) async {
+    collRef.add(user.toJson());
+  }
 
   Future<UserModel> getUser() async {
     final prefs = await SharedPreferences.getInstance();
