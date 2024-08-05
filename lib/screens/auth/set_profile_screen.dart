@@ -54,6 +54,17 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Spacer(),
+          const Align(
+            alignment: Alignment.center,
+            child: Text(
+              '당신의 정보를 입력해주세요!',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+            ),
+          ),
+          const Spacer(),
           const ExplainText(
             text: '닉네임',
           ),
