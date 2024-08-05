@@ -1,5 +1,5 @@
-class Profile {
-  Profile({
+class Client {
+  Client({
     required this.id,
     required this.username,
     required this.createdAt,
@@ -46,10 +46,18 @@ class Profile {
     birthday = newBirthday;
   }
 
-  Profile.fromMap(Map<String, dynamic> map)
+  Client.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         username = map['username'],
-        createdAt = DateTime.parse(map['created_at']),
+        createdAt = DateTime.parse(map['createdAt']),
         gender = map['gender'],
         birthday = DateTime.parse(map['birthday']);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'username': username,
+        'createdAt': createdAt.toIso8601String(),
+        'gender': gender,
+        'birthday': birthday.toIso8601String(),
+      };
 }
