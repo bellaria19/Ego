@@ -1,4 +1,5 @@
 import 'package:ego/models/quest.dart';
+import 'package:ego/services/firestore.dart';
 import 'package:ego/utils/constants_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -7,15 +8,34 @@ class QuestCard extends StatefulWidget {
   const QuestCard({
     super.key,
     required this.quest,
+    required this.docId,
   });
 
   final Quest quest;
+  final String docId;
 
   @override
   State<QuestCard> createState() => _QuestCardState();
 }
 
 class _QuestCardState extends State<QuestCard> {
+  FirestoreService firestoreService = FirestoreService();
+
+  void setQuestState(String docId, Quest quest) {
+    setState(() {
+      quest.setIsComplete();
+      firestoreService.updateQuest(docId, quest);
+    });
+  }
+
+  void setQuestRating(String docId, Quest quest, double rating) {
+    setState(() {
+      quest.setRating(rating);
+      debugPrint('rate: $quest.rate');
+      firestoreService.updateQuest(docId, quest);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -48,7 +68,7 @@ class _QuestCardState extends State<QuestCard> {
             title: Text(widget.quest.title),
             trailing: (widget.quest.isComplete)
                 ? RatingBar.builder(
-                    initialRating: widget.quest.rate!.toDouble(),
+                    initialRating: widget.quest.rate?.toDouble() ?? 0,
                     minRating: 0,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
@@ -59,14 +79,15 @@ class _QuestCardState extends State<QuestCard> {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {
-                      debugPrint(rating.toString());
+                      setQuestRating(widget.docId, widget.quest, rating);
                     },
                   )
                 : TextButton(
                     onPressed: () {
-                      setState(() {
-                        widget.quest.isComplete = true;
-                      });
+                      setQuestState(
+                        widget.docId,
+                        widget.quest,
+                      );
                     },
                     child: const Text('완료'),
                   ),

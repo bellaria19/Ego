@@ -7,6 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserModelProvider extends ChangeNotifier {
   UserModel? _user;
 
+  UserModel defaultUser = UserModel(
+      id: '0',
+      username: 'default',
+      gender: 'other',
+      createdAt: DateTime.now(),
+      birthday: DateTime.now());
+
   UserModel? get user => _user;
 
   final _db = FirebaseFirestore.instance;
@@ -38,13 +45,7 @@ class UserModelProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    return _user ??
-        UserModel(
-            id: '0',
-            username: '',
-            gender: 'other',
-            createdAt: DateTime.now(),
-            birthday: DateTime.now());
+    return _user ?? defaultUser;
   }
 
   Future<void> saveUser(UserModel user) async {

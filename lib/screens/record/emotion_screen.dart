@@ -20,42 +20,18 @@ class _EmotionScreenState extends State<EmotionScreen> {
   @override
   void initState() {
     super.initState();
-    // Generate and sort emotions initially
-    emotionList = generateSampleEmotions(10);
-    sortEmotionsByDate();
+    // // Generate and sort emotions initially
+    // emotionList = generateSampleEmotions(10);
+    // sortEmotionsByDate();
   }
 
-  void sortEmotionsByDate() {
-    emotionList.sort((a, b) => b.date.compareTo(a.date));
-  }
+  // void sortEmotionsByDate() {
+  //   emotionList.sort((a, b) => b.date.compareTo(a.date));
+  // }
 
   String _selectedYear = DateTime.now().year.toString();
   final List<String> _years =
       List.generate(1, (index) => (DateTime.now().year - index).toString());
-
-  void editMemo(String? docId, Emotion emotion) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: TextField(
-          controller: textController,
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              emotion.setMemo(textController.text);
-              firestoreService.updateEmotion(docId!, emotion);
-
-              textController.clear();
-
-              Navigator.pop(context);
-            },
-            child: const Text('edit'),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,12 +75,14 @@ class _EmotionScreenState extends State<EmotionScreen> {
 
                       Map<String, dynamic> data =
                           document.data() as Map<String, dynamic>;
+                      // debugPrint(data.toString());
                       final emotion = Emotion.fromMap(data);
+
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: EmotionCard(
                           emotion: emotion,
-                          onPressed: () => editMemo(docId, emotion),
+                          docId: docId,
                         ),
                       );
                     },
@@ -115,24 +93,6 @@ class _EmotionScreenState extends State<EmotionScreen> {
               }
             },
           ),
-          emotionList.isEmpty
-              ? const EmptyEmotion()
-              : Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: emotionList.length,
-                    itemBuilder: (context, index) {
-                      final emotion = emotionList[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: EmotionCard(
-                          emotion: emotion,
-                          onPressed: () => editMemo('1', emotion),
-                        ),
-                      );
-                    },
-                  ),
-                ),
         ],
       ),
     );

@@ -17,18 +17,19 @@ class QuestScreen extends StatefulWidget {
 class _QuestScreenState extends State<QuestScreen> {
   int _selectedIndex = 0;
   List<Quest> questList = [];
+  Map<Quest, String> questMap = {};
 
   @override
   void initState() {
     super.initState();
     // Generate and sort emotions initially
-    questList = generateSampleQuests(10);
-    sortEmotionsByDate();
+    // questList = generateSampleQuests(10);
+    // sortEmotionsByDate();
   }
 
-  void sortEmotionsByDate() {
-    questList.sort((a, b) => b.date.compareTo(a.date));
-  }
+  // void sortEmotionsByDate() {
+  //   questList.sort((a, b) => b.date.compareTo(a.date));
+  // }
 
   String _selectedYear = DateTime.now().year.toString();
   final List<String> _years =
@@ -114,58 +115,53 @@ class _QuestScreenState extends State<QuestScreen> {
         ),
         formSpacer,
         StreamBuilder<QuerySnapshot>(
-          stream: firestoreService.getEmotionsStream(),
+          stream: firestoreService.getQuestsStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List emotionsList = snapshot.data!.docs;
-              return Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: emotionsList.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot document = emotionsList[index];
-                    String docId = document.id;
+              List questsList = snapshot.data!.docs;
+              List<Quest> fetchedQuests = questsList.map((doc) {
+                Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                return Quest.fromMap(data);
+              }).toList();
+              List id = questsList.map((doc) {
+                // debugPrint(doc.id);
+                return doc.id;
+              }).toList();
 
-                    Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-                    final quest = Quest.fromMap(data);
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: QuestCard(quest: quest),
+              questMap = {
+                for (var quest in fetchedQuests)
+                  quest: id[fetchedQuests.indexOf(quest)]
+              };
+              questList = fetchedQuests;
+
+              // for (var quest in questList) {
+              //   debugPrint(quest.toJson().toString());
+              // }
+              return filteredQuestList.isEmpty
+                  ? const EmptyQuest()
+                  : Expanded(
+                      child: ListView.builder(
+                        // shrinkWrap: true,
+                        itemCount: filteredQuestList.length,
+                        itemBuilder: (context, index) {
+                          final quest = filteredQuestList[index];
+
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: QuestCard(
+                              quest: quest,
+                              docId: questMap[quest] ?? '',
+                            ),
+                          );
+                        },
+                      ),
                     );
-                  },
-                ),
-              );
             } else {
               return const EmptyQuest();
             }
           },
         ),
-        filteredQuestList.isEmpty
-            ? const EmptyQuest()
-            : Expanded(
-                child: ListView.builder(
-                  // shrinkWrap: true,
-                  itemCount: filteredQuestList.length,
-                  itemBuilder: (context, index) {
-                    final quest = filteredQuestList[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: QuestCard(quest: quest),
-                    );
-                  },
-                ),
-              ),
       ],
     );
   }
 }
-
-// const List<String> category = ['전체', '투두', '쓰기', '사진', '대화'];
-//
-// const Map<String, QuestCategory> categoryMap = {
-//   '투두': QuestCategory.todo,
-//   '쓰기': QuestCategory.write,
-//   '사진': QuestCategory.picture,
-//   '대화': QuestCategory.chat
-// };

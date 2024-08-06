@@ -37,7 +37,7 @@ class Emotion {
       };
 
   Emotion.fromMap(Map<String, dynamic> map)
-      : date = map['date'],
+      : date = map['date'].toDate(),
         emotion = EmotionType.values[map['emotion']],
         keyword = map['keyword'],
         memo = map['memo'];

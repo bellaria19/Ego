@@ -19,7 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final UserModelProvider _provider = UserModelProvider();
   late UserModel user;
   List<Emotion> dummyEmotions = generateSampleEmotions(10);
-  List<Quest> dummyQuests = generateSampleQuests(10);
+  List<Quest> dummyQuests = [];
 
   @override
   void initState() {
@@ -28,23 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     user = _provider.user ?? _provider.defaultUser;
     print(user.username);
   }
-
-  // Future<UserModel?> getUserData() async {
-  //   try {
-  //     DocumentSnapshot<Map<String, dynamic>> doc =
-  //         await db.collection('Users').doc(firebase.currentUser?.uid).get();
-  //     if (doc.exists) {
-  //       _user = UserModel.fromMap(doc.data()!);
-  //       debugPrint(_user.toString());
-  //     } else {
-  //       debugPrint('not exists ${doc.toString()}');
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //   }
-  //   return null;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(user.username,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold)),
                       Text(
                         DateFormat('yyyy년 MM월 dd일')

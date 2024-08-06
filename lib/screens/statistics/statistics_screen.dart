@@ -1,6 +1,4 @@
 import 'package:ego/models/chart_data.dart';
-import 'package:ego/screens/statistics/annual_report_screen.dart';
-import 'package:ego/screens/statistics/monthly_report_screen.dart';
 import 'package:ego/utils/constants.dart';
 import 'package:ego/widget/stat_card.dart';
 import 'package:flutter/material.dart';
@@ -73,58 +71,58 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 5,
                   children: [
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 2,
-                      mainAxisCellCount: 1,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MonthlyReportScreen(),
-                            ),
-                          );
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: StatCard(
-                            child: Center(
-                              child: Text(
-                                '월간 리포트\n보러가기',
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 2,
-                      mainAxisCellCount: 1,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const AnnualReportScreen(),
-                            ),
-                          );
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: StatCard(
-                            child: Center(
-                              child: Text(
-                                '연간 리포트\n보러가기',
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // StaggeredGridTile.count(
+                    //   crossAxisCellCount: 2,
+                    //   mainAxisCellCount: 1,
+                    //   child: InkWell(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const MonthlyReportScreen(),
+                    //         ),
+                    //       );
+                    //     },
+                    //     child: const Padding(
+                    //       padding: EdgeInsets.all(8.0),
+                    //       child: StatCard(
+                    //         child: Center(
+                    //           child: Text(
+                    //             '월간 리포트\n보러가기',
+                    //             style: TextStyle(fontWeight: FontWeight.w600),
+                    //             textAlign: TextAlign.center,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // StaggeredGridTile.count(
+                    //   crossAxisCellCount: 2,
+                    //   mainAxisCellCount: 1,
+                    //   child: InkWell(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const AnnualReportScreen(),
+                    //         ),
+                    //       );
+                    //     },
+                    //     child: const Padding(
+                    //       padding: EdgeInsets.all(8.0),
+                    //       child: StatCard(
+                    //         child: Center(
+                    //           child: Text(
+                    //             '연간 리포트\n보러가기',
+                    //             style: TextStyle(fontWeight: FontWeight.w600),
+                    //             textAlign: TextAlign.center,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     StaggeredGridTile.count(
                       crossAxisCellCount: 2,
                       mainAxisCellCount: 2,

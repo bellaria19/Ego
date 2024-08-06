@@ -1,18 +1,52 @@
 import 'package:ego/models/emotion.dart';
+import 'package:ego/services/firestore.dart';
 import 'package:flutter/material.dart';
 
 class EmotionCard extends StatefulWidget {
-  const EmotionCard(
-      {super.key, required this.emotion, required this.onPressed});
+  const EmotionCard({
+    super.key,
+    required this.emotion,
+    this.docId,
+  });
 
   final Emotion emotion;
-  final void Function() onPressed;
+  final String? docId;
 
   @override
   State<EmotionCard> createState() => _EmotionCardState();
 }
 
 class _EmotionCardState extends State<EmotionCard> {
+  FirestoreService firestoreService = FirestoreService();
+  TextEditingController textController = TextEditingController();
+
+  void editMemo(String? docId, Emotion emotion) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: TextField(
+          controller: textController,
+          decoration: const InputDecoration(
+            hintText: 'Type a memo',
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              emotion.setMemo(textController.text);
+              firestoreService.updateEmotion(docId!, emotion);
+
+              textController.clear();
+
+              Navigator.pop(context);
+            },
+            child: const Text('edit'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,7 +76,10 @@ class _EmotionCardState extends State<EmotionCard> {
               children: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.edit),
-                  onPressed: () => widget.onPressed,
+                  onPressed: () => editMemo(
+                    widget.docId,
+                    widget.emotion,
+                  ),
                 ),
                 // IconButton(
                 //   icon: const Icon(Icons.delete),
@@ -57,33 +94,4 @@ class _EmotionCardState extends State<EmotionCard> {
       ),
     );
   }
-
-  // Future<dynamic> deleteEmotionTile(BuildContext context) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Delete Emotion'),
-  //         content: const Text('Are you sure you want to delete this emotion?'),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Cancel'),
-  //           ),
-  //           TextButton(
-  //             onPressed: () {
-  //               setState(() {
-  //                 widget.emotion.removeAt(index);
-  //               });
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Delete'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 }
