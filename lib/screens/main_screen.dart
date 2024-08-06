@@ -3,9 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'chat/chat_screen.dart';
 import 'home/home_screen.dart';
-import 'profile/profile_screen.dart';
 import 'record/record_screen.dart';
-import 'statistics/statistics_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,17 +18,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
 
   final List<NavigationDestination> _navigationDestination = const [
     NavigationDestination(
       icon: Icon(FontAwesomeIcons.solidComment),
       label: 'Chat',
     ),
-    NavigationDestination(
-      icon: Icon(FontAwesomeIcons.squarePollVertical),
-      label: 'Stats',
-    ),
+    // NavigationDestination(
+    //   icon: Icon(FontAwesomeIcons.squarePollVertical),
+    //   label: 'Stats',
+    // ),
     NavigationDestination(
       icon: Icon(FontAwesomeIcons.houseChimney),
       label: 'Home',
@@ -39,18 +37,18 @@ class _MainScreenState extends State<MainScreen> {
       icon: Icon(FontAwesomeIcons.book),
       label: 'Record',
     ),
-    NavigationDestination(
-      icon: Icon(FontAwesomeIcons.addressBook),
-      label: 'Profile',
-    ),
+    // NavigationDestination(
+    //   icon: Icon(FontAwesomeIcons.addressBook),
+    //   label: 'Profile',
+    // ),
   ];
 
   final List _widgetOptions = const [
     ChatScreen(), // Chat
-    StatisticsScreen(), // History
+    // StatisticsScreen(), // History
     HomeScreen(), // Home
     RecordScreen(), // Quest
-    ProfileScreen(), // Profile
+    // ProfileScreen(), // Profile
   ];
 
   @override

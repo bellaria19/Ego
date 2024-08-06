@@ -1,4 +1,5 @@
 import 'package:ego/screens/home/select_emotion_screen.dart';
+import 'package:ego/screens/profile/detail_screen.dart';
 import 'package:ego/widget/day_reward.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,16 +40,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const DayReward();
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const DayReward();
+                              },
+                            );
                           },
-                        );
-                      },
-                      icon: const Icon(FontAwesomeIcons.bone),
+                          icon: const Icon(FontAwesomeIcons.bone),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DetailScreen(),
+                              ),
+                            );
+                          },
+                          icon: const Icon(FontAwesomeIcons.gear),
+                        ),
+                      ],
                     ),
                   ),
                 ),
